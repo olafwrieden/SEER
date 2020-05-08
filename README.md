@@ -2,6 +2,7 @@
 > When you need to verify a software engineering-related claim, we are your curated evidence repository.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Heroku](http://heroku-badge.herokuapp.com/?app=seer-repo&style=flat&svg=1)
 
 **Problem:** Have you ever wondered if Test-Driven Development actually improves code quality? There is a lot of evidence documented in Research papers but this is unavailable to many commercial software engineers because it is behind a paywall, is written in unfamiliar academic language and it is high effort to find the trends.
 
