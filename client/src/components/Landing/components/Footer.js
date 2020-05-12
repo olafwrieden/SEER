@@ -6,8 +6,8 @@ const Footer = () => (
     <div className="container">
       <div className="columns">
         <div className="column is-4 has-text-centered is-hidden-tablet">
-          <Link className="title is-4" to={"/"}>
-            <img src="images/logo-transparent.png" alt="SEER" width="100" />
+          <Link className="title is-4" to="/">
+            <img src="images/logo-dark.png" alt="SEER" width="100" />
           </Link>
         </div>
         <div className="column is-4">
@@ -18,8 +18,8 @@ const Footer = () => (
           </div>
         </div>
         <div className="column is-4 has-text-centered is-hidden-mobile">
-          <Link className="title is-4" to={"/"}>
-            <img src="images/logo-transparent.png" alt="SEER" width="100" />
+          <Link className="title is-4" to="/">
+            <img src="images/logo-dark.png" alt="SEER" width="100" />
           </Link>
         </div>
         <div className="column is-4 has-text-right">

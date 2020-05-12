@@ -10,7 +10,7 @@ const Navigation = () => {
         <div className="navbar-brand">
           <Link className="navbar-item" to="/">
             <img
-              src="images/logo-transparent.png"
+              src="images/logo-dark.png"
               alt="Logo"
               height="28"
               onClick={() => setIsActive(false)}
@@ -18,7 +18,7 @@ const Navigation = () => {
           </Link>
           <div
             className={`navbar-burger burger ${isActive ? "is-active" : ""}`}
-            data-target="navbarExampleTransparentExample"
+            data-target="navbar"
             onClick={() => setIsActive(!isActive)}
           >
             <span></span>
@@ -28,7 +28,7 @@ const Navigation = () => {
         </div>
 
         <div
-          id="navbarExampleTransparentExample"
+          id="navbar"
           className={`navbar-menu ${isActive ? "is-active" : ""}`}
         >
           <div className="navbar-start">
