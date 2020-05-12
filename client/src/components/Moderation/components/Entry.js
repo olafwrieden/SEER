@@ -2,7 +2,7 @@ import React from "react";
 
 const Entry = ({ title, type, date, author }) => {
   return (
-    <div className="box notification is-light">
+    <div className="box has-background-light">
       <div className="columns is-gapless">
         {/* Icon */}
         <div className="column is-one-fifth">

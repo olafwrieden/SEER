@@ -1,7 +1,7 @@
 import React from "react";
 
 const Category = ({ type }) => (
-  <div className="box notification is-light" style={{ cursor: "pointer" }}>
+  <div className="box has-background-light" style={{ cursor: "pointer" }}>
     <div className="columns is-gapless is-flex is-vcentered is-centered">
       {/* Icon */}
       <div className="column is-one-fifth">
