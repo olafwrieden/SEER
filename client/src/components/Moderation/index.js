@@ -52,13 +52,13 @@ const Moderation = () => {
       <section className="section">
         <div className="container">
           {/* Display new entries for moderation */}
-          {entries.map((entry) => (
+          {entries.map(({ id, name, type, date, author }) => (
             <Entry
-              key={entry.id}
-              title={entry.name}
-              type={entry.type}
-              date={entry.date}
-              author={entry.author}
+              key={id}
+              title={name}
+              type={type}
+              date={date}
+              author={author}
             />
           ))}
 
