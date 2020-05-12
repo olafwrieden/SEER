@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, Route, Switch } from "react-router-dom";
+import Dashboard from "../../Dashboard";
 import Landing from "../../Landing";
 import Moderation from "../../Moderation";
 import Suggestion from "../../Suggestion";
@@ -9,6 +10,7 @@ const Router = () => (
     <Route exact path="/" component={Landing} />
     <Route exact path="/suggest" component={Suggestion} />
     <Route exact path="/moderate" component={Moderation} />
+    <Route exact path="/dashboard" component={Dashboard} />
     <Route component={NotFound} />
   </Switch>
 );
