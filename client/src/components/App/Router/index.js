@@ -1,10 +1,12 @@
 import React from "react";
 import { Link, Route, Switch } from "react-router-dom";
 import Landing from "../../Landing";
+import Suggestion from "../../Suggestion";
 
 const Router = () => (
   <Switch>
     <Route exact path="/" component={Landing} />
+    <Route exact path="/suggest" component={Suggestion} />
     <Route component={NotFound} />
   </Switch>
 );
