@@ -1,6 +1,6 @@
 import React from "react";
+import CaughtUp from "../../utils/CaughtUp";
 import { RecordType } from "../../utils/RecordType";
-import CaughtUp from "./components/CaughtUp";
 import Entry from "./components/Entry";
 
 const entries = [
@@ -62,8 +62,12 @@ const Moderation = () => {
             />
           ))}
 
-          <hr />
-          <CaughtUp />
+          {/* Display "Caught Up" if moderation queue is empty */}
+          {!entries.length && (
+            <CaughtUp>
+              Submissions requiring your approval will be shown here.
+            </CaughtUp>
+          )}
         </div>
       </section>
     </>
