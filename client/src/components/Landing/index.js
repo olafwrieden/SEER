@@ -3,6 +3,7 @@ import Benefits from "./components/Benefits";
 import Hero from "./components/Hero";
 import Statement from "./components/Statement.js";
 import Team from "./components/Team";
+import Footer from "./components/Footer";
 
 const Landing = () => (
   <>
@@ -10,6 +11,7 @@ const Landing = () => (
     <Statement />
     <Team />
     <Benefits />
+    <Footer />
   </>
 );
 

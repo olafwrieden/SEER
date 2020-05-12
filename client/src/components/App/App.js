@@ -6,13 +6,12 @@ import Router from "./Router";
 function App() {
   return (
     <BrowserRouter basename="/">
-      <div className="container">
+      <>
         <Navigation />
         <Router />
-      </div>
+      </>
     </BrowserRouter>
   );
 }
 
 export default App;
-

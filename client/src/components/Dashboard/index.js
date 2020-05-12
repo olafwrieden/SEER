@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Statistic from "./components/Statistic";
 
 const Dashboard = () => {
