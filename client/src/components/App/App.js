@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import Navigation from "./Navigation";
 import Router from "./Router";
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter basename="/">
       <>
