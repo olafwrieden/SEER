@@ -11,7 +11,7 @@ const Suggestion = () => (
     </section>
 
     <section className="section">
-      <div className="container">
+      <div className="container is-vcentered">
         <h2 className="subtitle has-text-centered">I am suggesting a...</h2>
         <Categories />
       </div>
