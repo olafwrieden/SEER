@@ -1,0 +1,22 @@
+{
+  "name": "seer",
+  "version": "1.0.0",
+  "description": "The Software Engineering Research Repository.",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd api && node server.js",
+    "dev:api": "cd api && npm run dev",
+    "dev:app": "cd client && npm start",
+    "heroku-postbuild": "cd client && npm i && npm i --only=dev --no-shrinkwrap && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olafwrieden/SEER.git"
+  },
+  "author": "Olaf Wrieden",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/olafwrieden/SEER/issues"
+  },
+  "homepage": "https://github.com/olafwrieden/SEER#readme"
+}

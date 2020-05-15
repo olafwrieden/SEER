@@ -3,6 +3,7 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
+const path = require('path');
 const { connectDB } = require('./app/models');
 
 // Express App
@@ -11,7 +12,10 @@ app.use(cors());
 app.use(helmet());
 app.use(logger('dev'));
 
-if (process.env.NODE_ENV === 'production') {
+// Extract Environment Variables
+const { NODE_ENV, PORT } = process.env;
+
+if (NODE_ENV === 'production') {
   console.info('ENVIRONMENT: Production');
 }
 
@@ -19,18 +23,29 @@ if (process.env.NODE_ENV === 'production') {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// API Routes
+// API Routes (in production, it falls back to React Router)
 const router = express.Router();
 router.use('/users', require('./app/routes/Users'));
 
 app.use('/api/v1', router);
 
+// In Production, serve React build
+if (NODE_ENV === 'production') {
+  // Serve Static Files
+  app.use(express.static(path.join(__dirname, '../client/build')));
+
+  // Route all requests to client router
+  app.get('*', function (_, res) {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  });
+}
+
 // Serve API
-const port = process.env.PORT || 9000;
+const port = PORT || 9000;
 // Connect to DB
 connectDB()
   .then(async () => {
-    app.listen(process.env.PORT, () => {
+    app.listen(PORT, () => {
       console.info('----------');
       console.info('🚀  Database Connected!');
       console.info(`🚀  API Server listening on port ${port}`);
