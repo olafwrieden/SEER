@@ -7,7 +7,7 @@
     "start": "cd api && node server.js",
     "dev:api": "cd api && npm run dev",
     "dev:app": "cd client && npm start",
-    "heroku-postbuild": "npm i --only=prod && cd client && npm i && npm i --only=dev --no-shrinkwrap && npm run build"
+    "heroku-postbuild": "cd api && npm i --only=prod && cd ../client && npm i && npm i --only=dev --no-shrinkwrap && npm run build"
   },
   "repository": {
     "type": "git",
