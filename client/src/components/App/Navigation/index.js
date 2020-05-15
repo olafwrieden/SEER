@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 const Navigation = () => {
   const [isActive, setIsActive] = useState(false);
+  const { PUBLIC_URL } = process.env;
 
   return (
     <nav className="navbar">
@@ -10,7 +11,7 @@ const Navigation = () => {
         <div className="navbar-brand">
           <Link className="navbar-item" to="/">
             <img
-              src="images/logo-dark.png"
+              src={`${PUBLIC_URL}/images/logo-dark.png`}
               alt="Logo"
               height="28"
               onClick={() => setIsActive(false)}
