@@ -1,11 +1,11 @@
-const { Schema } = require('mongoose');
+const { Schema, Types } = require('mongoose');
 
 /**
  * The schema for a Rating
  */
 const RatingSchema = new Schema(
   {
-    rating: {
+    stars: {
       type: Number,
       required: [true, 'A rating (0-5 inclusive) is required.']
     },
@@ -14,7 +14,9 @@ const RatingSchema = new Schema(
       minlength: 20
     },
     author: {
-      type: String
+      type: Types.ObjectId,
+      ref: 'User',
+      required: [true, 'The author is required.']
     },
     is_public: {
       type: Boolean,

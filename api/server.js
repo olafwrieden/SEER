@@ -26,6 +26,8 @@ app.use(express.urlencoded({ extended: false }));
 // API Routes (in production, it falls back to React Router)
 const router = express.Router();
 router.use('/users', require('./app/routes/Users'));
+router.use('/admin', require('./app/routes/Admin'));
+router.use('/evidence', require('./app/routes/Evidence'));
 
 app.use('/api/v1', router);
 
