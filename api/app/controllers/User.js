@@ -33,6 +33,30 @@ const emailExists = async (email) => {
   });
 };
 
+const collectStats = async () => {
+  /* Query DB for stats */
+  const totalUsers = await User.countDocuments();
+  const totalEnabled = await User.countDocuments({ enabled: 1 });
+  const totalStandard = await User.countDocuments({ role: 'STANDARD' });
+  const totalModerator = await User.countDocuments({ role: 'MODERATOR' });
+  const totalAnalyst = await User.countDocuments({ role: 'ANALYST' });
+  const totalAdmin = await User.countDocuments({ role: 'ADMIN' });
+  const newInLast24 = await User.countDocuments({
+    createdAt: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000) }
+  });
+
+  /* Format and return stats */
+  return {
+    totalUsers,
+    totalEnabled,
+    totalStandard,
+    totalModerator,
+    totalAnalyst,
+    totalAdmin,
+    newInLast24
+  };
+};
+
 exports.getUsers = async (req, res) => {
   try {
     const query = await db.checkQueryString(req.query);
@@ -59,6 +83,15 @@ exports.createUser = async (req, res) => {
       // TODO: Send Registration Email
       res.status(201).json(item);
     }
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+exports.getStats = async (req, res) => {
+  try {
+    const userStats = await collectStats();
+    res.status(200).json({ users: userStats });
   } catch (error) {
     handleError(res, error);
   }
