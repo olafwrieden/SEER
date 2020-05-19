@@ -1,5 +1,5 @@
 const express = require('express');
-const { getStats } = require('../controllers/User');
+const { getStats } = require('../controllers/Admin');
 const router = express.Router();
 
 /* Get platform statistics */

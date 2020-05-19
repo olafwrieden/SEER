@@ -33,30 +33,6 @@ const emailExists = async (email) => {
   });
 };
 
-const collectStats = async () => {
-  /* Query DB for stats */
-  const totalUsers = await User.countDocuments();
-  const totalEnabled = await User.countDocuments({ enabled: 1 });
-  const totalStandard = await User.countDocuments({ role: 'STANDARD' });
-  const totalModerator = await User.countDocuments({ role: 'MODERATOR' });
-  const totalAnalyst = await User.countDocuments({ role: 'ANALYST' });
-  const totalAdmin = await User.countDocuments({ role: 'ADMIN' });
-  const newInLast24 = await User.countDocuments({
-    createdAt: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000) }
-  });
-
-  /* Format and return stats */
-  return {
-    totalUsers,
-    totalEnabled,
-    totalStandard,
-    totalModerator,
-    totalAnalyst,
-    totalAdmin,
-    newInLast24
-  };
-};
-
 exports.getUsers = async (req, res) => {
   try {
     const query = await db.checkQueryString(req.query);
@@ -88,11 +64,62 @@ exports.createUser = async (req, res) => {
   }
 };
 
-exports.getStats = async (req, res) => {
+exports.getUserStats = async () => {
   try {
-    const userStats = await collectStats();
-    res.status(200).json({ users: userStats });
+    const stats = await User.aggregate([
+      {
+        $facet: {
+          totalUsers: [
+            { $match: { _id: { $exists: true } } },
+            { $count: 'totalUsers' }
+          ],
+          totalEnabled: [
+            { $match: { enabled: true } },
+            { $count: 'totalEnabled' }
+          ],
+          totalStandard: [
+            { $match: { role: 'STANDARD' } },
+            { $count: 'totalStandard' }
+          ],
+          totalModerator: [
+            { $match: { role: 'MODERATOR' } },
+            { $count: 'totalModerator' }
+          ],
+          totalAnalyst: [
+            { $match: { role: 'ANALYST' } },
+            { $count: 'totalAnalyst' }
+          ],
+          totalAdmin: [{ $match: { role: 'ADMIN' } }, { $count: 'totalAdmin' }],
+          newInLast24: [
+            {
+              $match: {
+                createdAt: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000) }
+              }
+            },
+            { $count: 'newInLast24' }
+          ]
+        }
+      },
+      {
+        $project: {
+          totalUsers: { $arrayElemAt: ['$totalUsers.totalUsers', 0] },
+          totalEnabled: { $arrayElemAt: ['$totalEnabled.totalEnabled', 0] },
+          totalStandard: {
+            $arrayElemAt: ['$totalStandard.totalStandard', 0]
+          },
+          totalModerator: {
+            $arrayElemAt: ['$totalModerator.totalModerator', 0]
+          },
+          totalAnalyst: { $arrayElemAt: ['$totalAnalyst.totalAnalyst', 0] },
+          totalAdmin: { $arrayElemAt: ['$totalAdmin.totalAdmin', 0] },
+          newInLast24: { $arrayElemAt: ['$newInLast24.newInLast24', 0] }
+        }
+      }
+    ]);
+
+    return stats[0];
   } catch (error) {
-    handleError(res, error);
+    console.log(error);
+    return {};
   }
 };
