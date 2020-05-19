@@ -1,5 +1,6 @@
 import React from "react";
 import Statistic from "./components/Statistic";
+import UserOverview from "./components/UserOverview";
 
 const Dashboard = () => {
   return (
@@ -16,6 +17,7 @@ const Dashboard = () => {
             <div className="column is-6-tablet is-3-desktop">
               <Statistic
                 value={8365}
+                change={3}
                 text="Total Entries"
                 bgcolor="has-background-link"
               />
@@ -37,8 +39,26 @@ const Dashboard = () => {
             <div className="column is-6-tablet is-3-desktop">
               <Statistic
                 value={392}
+                change={21}
                 text="Total Users"
                 bgcolor="has-background-success"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="container">
+          <div className="columns is-multiline">
+            <div className="column is-6-tablet is-3-desktop"></div>
+            <div className="column is-6-tablet is-3-desktop"></div>
+            <div className="column is-6-tablet is-3-desktop"></div>
+            <div className="column is-6-tablet is-3-desktop">
+              <UserOverview
+                standard={354}
+                moderators={22}
+                analysts={32}
+                admins={3}
+                actions
               />
             </div>
           </div>

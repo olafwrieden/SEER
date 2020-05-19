@@ -1,45 +1,20 @@
 const { Schema, model } = require('mongoose');
-const AuthorSchema = require('./Name');
+const mongoosePaginate = require('mongoose-paginate-v2');
 const RatingSchema = require('./Rating');
-const BookSchema = require('./Book');
-const BookSectionSchema = require('./BookSection');
-const JournalSchema = require('./Journal');
-const PeriodicalSchema = require('./Periodical');
-const ProceedingsSchema = require('./Proceedings');
-const WebsiteSchema = require('./Website');
+const StatusSchema = require('./Status');
 
-const StatusSchema = new Schema({
-  status: {
-    type: String,
-    enum: [
-      'REJECTED', // Evidence is rejected
-      'PENDING_APPROVAL', // Eidence is submitted (to be moderated)
-      'PENDING_ANALYSIS', // Evidence is approved (to be analysed)
-      'AVAILABLE', // Evidence is publicly available
-      'UNAVAILABLE' // Evidence is publicly unavailable
-    ],
-    default: 'PENDING_APPROVAL'
-  },
-  rejection_reason: {
-    type: String,
-    minlength: 20
-  }
-});
+/* Base Options for Evidence Discrimination */
+const baseOptions = {
+  discriminatorKey: '__type',
+  collection: 'evidence',
+  timestamps: true
+};
 
+/**
+ * The Base Evidence Schema
+ */
 const EvidenceSchema = new Schema(
   {
-    entry: {
-      type: [
-        BookSchema |
-          AuthorSchema |
-          BookSectionSchema |
-          JournalSchema |
-          PeriodicalSchema |
-          ProceedingsSchema |
-          WebsiteSchema
-      ],
-      required: [true, 'An entry is required.']
-    },
     keywords: {
       type: [String],
       required: [true, 'A few keywords are required.']
@@ -55,10 +30,13 @@ const EvidenceSchema = new Schema(
       type: [RatingSchema]
     },
     status: {
-      type: StatusSchema
+      type: StatusSchema,
+      required: true,
+      default: () => ({})
     }
   },
-  { timestamps: true }
+  baseOptions
 );
 
+EvidenceSchema.plugin(mongoosePaginate);
 module.exports = model('Evidence', EvidenceSchema);

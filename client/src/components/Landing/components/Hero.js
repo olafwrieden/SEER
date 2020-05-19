@@ -35,7 +35,7 @@ const Hero = () => {
               <br />
               Software Engineering Evidence Repository.
             </p>
-            <Link to="/" className="button is-primary">
+            <Link to="/browse" className="button is-primary">
               Start Search
             </Link>
           </div>
