@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import Dashboard from "../../Dashboard";
 import Landing from "../../Landing";
 import Moderation from "../../Moderation";
+import Search from "../../Search";
 import Suggestion from "../../Suggestion";
 import Search from "../../Search";
 import NotFound from "./NotFound";
@@ -10,6 +11,7 @@ import NotFound from "./NotFound";
 const Router = () => (
   <Switch>
     <Route exact path="/" component={Landing} />
+    <Route exact path="/browse" component={Search} />
     <Route exact path="/suggest" component={Suggestion} />
     <Route exact path="/moderate" component={Moderation} />
     <Route exact path="/dashboard" component={Dashboard} />

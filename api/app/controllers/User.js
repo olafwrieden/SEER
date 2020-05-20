@@ -63,3 +63,63 @@ exports.createUser = async (req, res) => {
     handleError(res, error);
   }
 };
+
+exports.getUserStats = async () => {
+  try {
+    const stats = await User.aggregate([
+      {
+        $facet: {
+          totalUsers: [
+            { $match: { _id: { $exists: true } } },
+            { $count: 'totalUsers' }
+          ],
+          totalEnabled: [
+            { $match: { enabled: true } },
+            { $count: 'totalEnabled' }
+          ],
+          totalStandard: [
+            { $match: { role: 'STANDARD' } },
+            { $count: 'totalStandard' }
+          ],
+          totalModerator: [
+            { $match: { role: 'MODERATOR' } },
+            { $count: 'totalModerator' }
+          ],
+          totalAnalyst: [
+            { $match: { role: 'ANALYST' } },
+            { $count: 'totalAnalyst' }
+          ],
+          totalAdmin: [{ $match: { role: 'ADMIN' } }, { $count: 'totalAdmin' }],
+          newInLast24: [
+            {
+              $match: {
+                createdAt: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000) }
+              }
+            },
+            { $count: 'newInLast24' }
+          ]
+        }
+      },
+      {
+        $project: {
+          totalUsers: { $arrayElemAt: ['$totalUsers.totalUsers', 0] },
+          totalEnabled: { $arrayElemAt: ['$totalEnabled.totalEnabled', 0] },
+          totalStandard: {
+            $arrayElemAt: ['$totalStandard.totalStandard', 0]
+          },
+          totalModerator: {
+            $arrayElemAt: ['$totalModerator.totalModerator', 0]
+          },
+          totalAnalyst: { $arrayElemAt: ['$totalAnalyst.totalAnalyst', 0] },
+          totalAdmin: { $arrayElemAt: ['$totalAdmin.totalAdmin', 0] },
+          newInLast24: { $arrayElemAt: ['$newInLast24.newInLast24', 0] }
+        }
+      }
+    ]);
+
+    return stats[0];
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};

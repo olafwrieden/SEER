@@ -2,6 +2,7 @@ import React from "react";
 import CaughtUp from "../../utils/CaughtUp";
 import { RecordType } from "../../utils/RecordType";
 import Results from "./components/Results";
+import SearchBar from "./components/SearchBar";
 
 const search_results = [
   {
@@ -43,7 +44,7 @@ const search_results = [
   },
 ];
 
-const Search = () => {
+/*const Search = () => {
   return (
     <>
       <section className="section">
@@ -51,9 +52,9 @@ const Search = () => {
           <h2 className="title">Results</h2>
           <p className="subtitle">Here are your results from your search.</p>
         </div>
-      </section>
+      </section> */
 
-      <section className="section">
+/* <section className="section">
         <div className="container">
           {search_results.map(
             ({ id, name, type, date, author, descriptor }) => (
@@ -71,6 +72,42 @@ const Search = () => {
           {!search_results.length && (
             <CaughtUp>Results from your search will be shown here.</CaughtUp>
           )}
+        </div>
+      </section>
+    </> */
+
+const Search = () => {
+  return (
+    <>
+      <section className="section">
+        <div className="container">
+          <h2 className="title">Browse</h2>
+          <p className="subtitle" style={{ marginBottom: "50px" }}>
+            Verify a claim by searching our curated repository.
+          </p>
+          <SearchBar />
+          <section className="section">
+            <div className="container">
+              {search_results.map(
+                ({ id, name, type, date, author, descriptor }) => (
+                  <Results
+                    key={id}
+                    title={name}
+                    type={type}
+                    date={date}
+                    author={author}
+                    descriptor={descriptor}
+                  />
+                )
+              )}
+
+              {!search_results.length && (
+                <CaughtUp>
+                  Results from your search will be shown here.
+                </CaughtUp>
+              )}
+            </div>
+          </section>
         </div>
       </section>
     </>
