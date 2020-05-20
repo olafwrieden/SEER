@@ -4,6 +4,7 @@ import Dashboard from "../../Dashboard";
 import Landing from "../../Landing";
 import Moderation from "../../Moderation";
 import Suggestion from "../../Suggestion";
+import Search from "../../Search";
 import NotFound from "./NotFound";
 
 const Router = () => (
@@ -12,6 +13,7 @@ const Router = () => (
     <Route exact path="/suggest" component={Suggestion} />
     <Route exact path="/moderate" component={Moderation} />
     <Route exact path="/dashboard" component={Dashboard} />
+    <Route exact path="/browse" component={Search} />
     <Route component={NotFound} />
   </Switch>
 );
