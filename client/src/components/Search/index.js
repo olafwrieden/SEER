@@ -1,10 +1,10 @@
 import React from "react";
 import CaughtUp from "../../utils/CaughtUp";
 import { RecordType } from "../../utils/RecordType";
-import Results from "./components/Results";
+import Result from "./components/Result";
 import SearchBar from "./components/SearchBar";
 
-const search_results = [
+const searchResults = [
   {
     id: 1,
     name:
@@ -44,38 +44,6 @@ const search_results = [
   },
 ];
 
-/*const Search = () => {
-  return (
-    <>
-      <section className="section">
-        <div className="container">
-          <h2 className="title">Results</h2>
-          <p className="subtitle">Here are your results from your search.</p>
-        </div>
-      </section> */
-
-/* <section className="section">
-        <div className="container">
-          {search_results.map(
-            ({ id, name, type, date, author, descriptor }) => (
-              <Results
-                key={id}
-                title={name}
-                type={type}
-                date={date}
-                author={author}
-                descriptor={descriptor}
-              />
-            )
-          )}
-
-          {!search_results.length && (
-            <CaughtUp>Results from your search will be shown here.</CaughtUp>
-          )}
-        </div>
-      </section>
-    </> */
-
 const Search = () => {
   return (
     <>
@@ -87,26 +55,23 @@ const Search = () => {
           </p>
           <SearchBar />
           <section className="section">
-            <div className="container">
-              {search_results.map(
-                ({ id, name, type, date, author, descriptor }) => (
-                  <Results
-                    key={id}
-                    title={name}
-                    type={type}
-                    date={date}
-                    author={author}
-                    descriptor={descriptor}
-                  />
-                )
-              )}
+            {/* <div className="container"> */}
+            {searchResults.map(
+              ({ id, name, type, date, author, descriptor }) => (
+                <Result
+                  key={id}
+                  title={name}
+                  type={type}
+                  date={date}
+                  author={author}
+                  descriptor={descriptor}
+                />
+              )
+            )}
 
-              {!search_results.length && (
-                <CaughtUp>
-                  Results from your search will be shown here.
-                </CaughtUp>
-              )}
-            </div>
+            {!searchResults.length && (
+              <CaughtUp>Results from your search will be shown here.</CaughtUp>
+            )}
           </section>
         </div>
       </section>

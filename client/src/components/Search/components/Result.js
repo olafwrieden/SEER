@@ -1,8 +1,8 @@
 import React from "react";
 
-const Results = ({ title, type, date, author, descriptor }) => {
+const Result = ({ title, type, date, author, descriptor }) => {
   return (
-    <div className="box has-background-light">
+    <div className="box">
       <div className="columns is-gapless">
         {/* Icon */}
         <div className="column is-one-fifth">
@@ -25,4 +25,4 @@ const Results = ({ title, type, date, author, descriptor }) => {
   );
 };
 
-export default Results;
+export default Result;

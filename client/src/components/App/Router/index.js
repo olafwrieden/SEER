@@ -5,7 +5,6 @@ import Landing from "../../Landing";
 import Moderation from "../../Moderation";
 import Search from "../../Search";
 import Suggestion from "../../Suggestion";
-import Search from "../../Search";
 import NotFound from "./NotFound";
 
 const Router = () => (
