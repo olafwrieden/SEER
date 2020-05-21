@@ -1,12 +1,15 @@
 import React from "react";
+import { RecordType } from "../../../utils/RecordType";
 
 const Entry = ({ title, type, date, author }) => {
+  const icon = type?.icon || RecordType.UNCLASSIFIED.icon;
+
   return (
     <div className="box has-background-light">
       <div className="columns is-gapless">
         {/* Icon */}
         <div className="column is-one-fifth">
-          <i className={type.icon} aria-hidden="true"></i>
+          <i className={icon} aria-hidden="true"></i>
         </div>
         {/* Title */}
         <div className="column">
