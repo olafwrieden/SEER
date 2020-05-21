@@ -6,7 +6,7 @@ const EvidenceSchema = require('./Evidence');
  * The schema for a Book Section
  */
 const BookSectionSchema = EvidenceSchema.discriminator(
-  'BookSection',
+  'BOOKSECTION',
   new Schema({
     authors: {
       type: [AuthorSchema],

@@ -6,7 +6,7 @@ const EvidenceSchema = require('./Evidence');
  * The schema for a Conference Proceeding
  */
 const Proceedings = EvidenceSchema.discriminator(
-  'Proceedings',
+  'PROCEEDINGS',
   new Schema({
     authors: {
       type: [AuthorSchema],

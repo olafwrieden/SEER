@@ -6,7 +6,7 @@ const EvidenceSchema = require('./Evidence');
  * The schema for a Periodical
  */
 const Periodical = EvidenceSchema.discriminator(
-  'Periodical',
+  'PERIODICAL',
   new Schema({
     authors: {
       type: [AuthorSchema],

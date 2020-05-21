@@ -8,7 +8,7 @@ const Categories = () => (
       <Category type={RecordType.BOOK} />
     </div>
     <div className="column is-4-tablet is-4-desktop">
-      <Category type={RecordType.ARTICLE} />
+      <Category type={RecordType.JOURNAL} />
     </div>
     <div className="column is-4-tablet is-4-desktop">
       <Category type={RecordType.WEBSITE} />

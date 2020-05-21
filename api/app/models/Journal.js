@@ -6,7 +6,7 @@ const EvidenceSchema = require('./Evidence');
  * The schema for a Journal
  */
 const JournalSchema = EvidenceSchema.discriminator(
-  'Journal',
+  'JOURNAL',
   new Schema({
     authors: {
       type: [AuthorSchema],

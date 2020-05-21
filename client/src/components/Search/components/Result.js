@@ -1,5 +1,6 @@
 import React from "react";
 import { AiFillStar } from "react-icons/ai";
+import { RecordType } from "../../../utils/RecordType";
 
 const Result = ({
   title,
@@ -11,12 +12,14 @@ const Result = ({
   rating,
   seMethod,
 }) => {
+  const icon = type?.icon || RecordType.UNCLASSIFIED.icon;
+
   return (
     <div className="box">
       <div className="columns">
         {/* Icon */}
         <div className="column is-one-fifth">
-          <i className={`${type.icon} has-text-primary`} aria-hidden="true"></i>
+          <i className={`${icon} has-text-primary`} aria-hidden="true"></i>
         </div>
 
         {/* Title & Author Info */}
@@ -30,7 +33,7 @@ const Result = ({
               <div className="tags">
                 {authors.map((author, i) => (
                   <span key={i} className="tag">
-                    {author}
+                    {author.first_name} {author.middle_name} {author.last_name}
                   </span>
                 ))}
               </div>
