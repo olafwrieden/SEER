@@ -30,7 +30,7 @@ const Result = ({
               <div className="tags">
                 {authors.map((author, i) => (
                   <span key={i} className="tag">
-                    {author}
+                    {author.first_name} {author.last_name}
                   </span>
                 ))}
               </div>

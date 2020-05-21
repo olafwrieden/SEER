@@ -10,7 +10,6 @@ import NotFound from "./NotFound";
 const Router = () => (
   <Switch>
     <Route exact path="/" component={Landing} />
-    <Route exact path="/browse" component={Search} />
     <Route exact path="/suggest" component={Suggestion} />
     <Route exact path="/moderate" component={Moderation} />
     <Route exact path="/dashboard" component={Dashboard} />
