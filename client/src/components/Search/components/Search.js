@@ -33,8 +33,8 @@ const Search = ({ terms, dateFrom, dateTo }) => {
         }
     }, []);
 
-    const pageIndex = 0;
-    const pageSize = 10;
+    const pageIndex = 0; // TODO: remove hardcoding
+    const pageSize = 10; // TODO: remove hardcoding
     useEffect(() => {
         fetchData({ pageIndex, pageSize });
     }, [fetchData, pageIndex, pageSize]);
@@ -62,8 +62,8 @@ const Search = ({ terms, dateFrom, dateTo }) => {
                             date={result.year}
                             authors={result.authors}
                             researchQuestion={result.research_question}
-                            outcome={"Outcome not defined in database yet"} //doesn't exist
-                            rating={result.ratings[1]} // needs to be average of array values
+                            outcome={"Outcome not defined in database yet"} // TODO: add real data to DB
+                            rating={result.ratings[1]} // TODO: average of array values
                             seMethod={result.se_method}
                         />
                     ))}
