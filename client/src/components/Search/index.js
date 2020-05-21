@@ -17,7 +17,7 @@ const Search = ({ terms, dateFrom, dateTo }) => {
 
     // Fetch Data
     const data = await fetch(
-      `/api/v1/evidence?limit=${pageSize}&page=${pageIndex}&year=2010`
+      `/api/v1/evidence?limit=${pageSize}&page=${pageIndex}`
     ).then((res) => res.json());
 
     if (fetchId === fetchIdRef.current) {
