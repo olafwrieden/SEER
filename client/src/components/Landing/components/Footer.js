@@ -19,7 +19,10 @@ const Footer = () => {
           </div>
           <div className="column is-4">
             <div className="level">
-              <a className="level-item" href="/">
+              <a
+                className="level-item"
+                href="https://blackboard.aut.ac.nz/webapps/Bb-wiki-bb_bb60/wikiView?course_id=_94390_1&group_id=_131312_1"
+              >
                 Wiki
               </a>
             </div>

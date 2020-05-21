@@ -4,11 +4,11 @@ const Statement = () => (
   <section className="section">
     <div className="container has-text-centered">
       <p>
-        Our mission is not to outsell Hooli with a product like their latest Box
-        3. We are not in it for the money - we are in it to make the whole world
-        decentralized. To give you control over your data. To change by the
-        internet as we know it by integrating a very important feature into it -
-        freedom.
+        Do you often find yourself wandering if the claim is true that using a
+        TDD apprach as a way of working improves code quality? Now you can
+        search SEER for "TDD" and "code quality" to get a list of empirical
+        research articles related to this, with a summary of each related to the
+        study, the measures and the results.
       </p>
     </div>
   </section>
