@@ -61,8 +61,8 @@ const Search = ({ terms, dateFrom, dateTo }) => {
                             type={RecordType[result.__type]}
                             date={result.year}
                             authors={result.authors}
-                            //researchQuestion={result.research_question} //doesn't exist
-                            //outcome={result.outcome} //doesn't exist
+                            researchQuestion={result.research_question}
+                            outcome={"Outcome not defined in database yet"} //doesn't exist
                             rating={result.ratings[1]} // needs to be average of array values
                             seMethod={result.se_method}
                         />
