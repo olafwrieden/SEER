@@ -25,7 +25,6 @@ const Table = ({
     canPreviousPage,
     canNextPage,
     pageOptions,
-    pageCount,
     nextPage,
     previousPage,
     setPageSize,
@@ -44,7 +43,7 @@ const Table = ({
 
   useEffect(() => {
     fetchData({ pageIndex, pageSize });
-  }, [pageIndex, pageSize]);
+  }, [fetchData, pageIndex, pageSize]);
 
   return (
     <>
@@ -209,7 +208,6 @@ const UserTable = () => {
     []
   );
 
-  // We'll start our table without any data
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(0);
@@ -224,7 +222,6 @@ const UserTable = () => {
     const data = await fetch(
       `/api/v1/users?limit=${pageSize}&page=${pageIndex}`
     ).then((res) => res.json());
-    console.log(data);
 
     if (fetchId === fetchIdRef.current) {
       setData(data.data);
