@@ -43,7 +43,7 @@ const Entry = ({ title, type, date, doi, url }) => {
             {/* URL */}
             <div className="control">
               <div className="tags has-addons">
-                <span className="tag is-primary">Link</span>
+                <span className="tag is-primary">URL</span>
                 <span className="tag is-light">
                   <a
                     href={url}
