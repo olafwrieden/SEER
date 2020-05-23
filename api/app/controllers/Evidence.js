@@ -51,67 +51,143 @@ exports.getEvidenceStats = async () => {
             { $count: 'totalUnavailable' }
           ],
           totalBooks: [
-            { $match: { __type: 'Book' } },
+            {
+              $match: { __type: 'BOOK', status: { state: 'AVAILABLE' } }
+            },
             { $count: 'totalBooks' }
           ],
           totalWebsites: [
-            { $match: { __type: 'Website' } },
+            {
+              $match: {
+                __type: 'WEBSITE',
+                status: { state: 'AVAILABLE' }
+              }
+            },
             { $count: 'totalWebsites' }
           ],
           totalBookSections: [
-            { $match: { __type: 'BookSection' } },
+            {
+              $match: {
+                __type: 'BOOKSECTION',
+                status: { state: 'AVAILABLE' }
+              }
+            },
             { $count: 'totalBookSections' }
           ],
           totalJournals: [
-            { $match: { __type: 'Journal' } },
+            {
+              $match: {
+                __type: 'JOURNAL',
+                status: { state: 'AVAILABLE' }
+              }
+            },
             { $count: 'totalJournals' }
           ],
           totalPeriodicals: [
-            { $match: { __type: 'Periodical' } },
+            {
+              $match: {
+                __type: 'PERIODICAL',
+                status: { state: 'AVAILABLE' }
+              }
+            },
             { $count: 'totalPeriodicals' }
           ],
           totalProceedings: [
-            { $match: { __type: 'Periodical' } },
+            {
+              $match: { __type: 'PROCEEDINGS', status: { state: 'AVAILABLE' } }
+            },
             { $count: 'totalProceedings' }
           ]
         }
       },
       {
         $project: {
-          totalEvidence: { $arrayElemAt: ['$totalEvidence.totalEvidence', 0] },
-          totalRejected: {
-            $arrayElemAt: ['$totalRejected.totalRejected', 0]
+          total: {
+            $ifNull: [{ $arrayElemAt: ['$totalEvidence.totalEvidence', 0] }, 0]
           },
-          totalPendingApproval: {
-            $arrayElemAt: ['$totalPendingApproval.totalPendingApproval', 0]
+          rejected: {
+            $ifNull: [{ $arrayElemAt: ['$totalRejected.totalRejected', 0] }, 0]
           },
-          totalPendingAnalysis: {
-            $arrayElemAt: ['$totalPendingAnalysis.totalPendingAnalysis', 0]
+          pendingApproval: {
+            $ifNull: [
+              {
+                $arrayElemAt: ['$totalPendingApproval.totalPendingApproval', 0]
+              },
+              0
+            ]
           },
-          totalAvailable: {
-            $arrayElemAt: ['$totalAvailable.totalAvailable', 0]
+          pendingAnalysis: {
+            $ifNull: [
+              {
+                $arrayElemAt: ['$totalPendingAnalysis.totalPendingAnalysis', 0]
+              },
+              0
+            ]
           },
-          totalUnavailable: {
-            $arrayElemAt: ['$totalUnavailable.totalUnavailable', 0]
+          available: {
+            $ifNull: [
+              {
+                $arrayElemAt: ['$totalAvailable.totalAvailable', 0]
+              },
+              0
+            ]
           },
-          categories: {
-            books: {
-              $arrayElemAt: ['$totalBooks.totalBooks', 0]
+          unavailable: {
+            $ifNull: [
+              {
+                $arrayElemAt: ['$totalUnavailable.totalUnavailable', 0]
+              },
+              0
+            ]
+          },
+          availableByCategory: {
+            book: {
+              $ifNull: [
+                {
+                  $arrayElemAt: ['$totalBooks.totalBooks', 0]
+                },
+                0
+              ]
             },
-            websites: {
-              $arrayElemAt: ['$totalWebsites.totalWebsites', 0]
+            website: {
+              $ifNull: [
+                {
+                  $arrayElemAt: ['$totalWebsites.totalWebsites', 0]
+                },
+                0
+              ]
             },
-            booksections: {
-              $arrayElemAt: ['$totalBookSections.totalBookSections', 0]
+            bookSection: {
+              $ifNull: [
+                {
+                  $arrayElemAt: ['$totalBookSections.totalBookSections', 0]
+                },
+                0
+              ]
             },
-            journals: {
-              $arrayElemAt: ['$totalJournals.totalJournals', 0]
+            journal: {
+              $ifNull: [
+                {
+                  $arrayElemAt: ['$totalJournals.totalJournals', 0]
+                },
+                0
+              ]
             },
-            periodicals: {
-              $arrayElemAt: ['$totalPeriodicals.totalPeriodicals', 0]
+            periodical: {
+              $ifNull: [
+                {
+                  $arrayElemAt: ['$totalPeriodicals.totalPeriodicals', 0]
+                },
+                0
+              ]
             },
-            proceedings: {
-              $arrayElemAt: ['$totalProceedings.totalProceedings', 0]
+            proceeding: {
+              $ifNull: [
+                {
+                  $arrayElemAt: ['$totalProceedings.totalProceedings', 0]
+                },
+                0
+              ]
             }
           }
         }

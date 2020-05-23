@@ -7,7 +7,7 @@ exports.getStats = async (_, res) => {
     const userStats = await getUserStats();
     const evidenceStats = await getEvidenceStats();
 
-    res.status(200).json({ userStats, evidenceStats });
+    res.status(200).json({ users: userStats, evidence: evidenceStats });
   } catch (error) {
     handleError(res, error);
   }
