@@ -90,29 +90,45 @@ exports.getUserStats = async () => {
             { $count: 'totalAnalyst' }
           ],
           totalAdmin: [{ $match: { role: 'ADMIN' } }, { $count: 'totalAdmin' }],
-          newInLast24: [
+          totalNewInLast24: [
             {
               $match: {
                 createdAt: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000) }
               }
             },
-            { $count: 'newInLast24' }
+            { $count: 'totalNewInLast24' }
           ]
         }
       },
       {
         $project: {
-          totalUsers: { $arrayElemAt: ['$totalUsers.totalUsers', 0] },
-          totalEnabled: { $arrayElemAt: ['$totalEnabled.totalEnabled', 0] },
-          totalStandard: {
-            $arrayElemAt: ['$totalStandard.totalStandard', 0]
+          total: {
+            $ifNull: [{ $arrayElemAt: ['$totalUsers.totalUsers', 0] }, 0]
           },
-          totalModerator: {
-            $arrayElemAt: ['$totalModerator.totalModerator', 0]
+          enabled: {
+            $ifNull: [{ $arrayElemAt: ['$totalEnabled.totalEnabled', 0] }, 0]
           },
-          totalAnalyst: { $arrayElemAt: ['$totalAnalyst.totalAnalyst', 0] },
-          totalAdmin: { $arrayElemAt: ['$totalAdmin.totalAdmin', 0] },
-          newInLast24: { $arrayElemAt: ['$newInLast24.newInLast24', 0] }
+          standard: {
+            $ifNull: [{ $arrayElemAt: ['$totalStandard.totalStandard', 0] }, 0]
+          },
+          moderator: {
+            $ifNull: [
+              { $arrayElemAt: ['$totalModerator.totalModerator', 0] },
+              0
+            ]
+          },
+          analyst: {
+            $ifNull: [{ $arrayElemAt: ['$totalAnalyst.totalAnalyst', 0] }, 0]
+          },
+          admin: {
+            $ifNull: [{ $arrayElemAt: ['$totalAdmin.totalAdmin', 0] }, 0]
+          },
+          newInLast24: {
+            $ifNull: [
+              { $arrayElemAt: ['$totalNewInLast24.totalNewInLast24', 0] },
+              0
+            ]
+          }
         }
       }
     ]);
