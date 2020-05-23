@@ -48,6 +48,7 @@ const Entry = ({ title, type, date, doi, url }) => {
                   <a
                     href={url}
                     target="_blank"
+                    rel="noopener noreferrer"
                     style={{ textDecoration: "none" }}
                   >
                     View Page
