@@ -13,7 +13,7 @@ const Login = () => {
           <div className="column is-4-desktop is-6-tablet">
             <form>
               <h1 className="title">Welcome</h1>
-              <h2 className="subtitle">Log in to continue</h2>
+              <h2 className="subtitle">Log in to continue.</h2>
 
               {/* Email Field */}
               <div className="field">

@@ -15,7 +15,7 @@ const Register = () => {
           <div className="column is-4-desktop is-6-tablet">
             <form>
               <h1 className="title">Register</h1>
-              <h2 className="subtitle">More features are waiting</h2>
+              <h2 className="subtitle">More features are waiting.</h2>
 
               {/* Name Fields */}
               <div className="columns is-mobile">
