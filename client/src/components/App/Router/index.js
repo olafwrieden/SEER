@@ -20,7 +20,6 @@ const Router = () => (
     <ProtectedRoute
       exact
       roles={[Role.MODERATOR, Role.ADMIN]}
-      exact
       path="/moderate"
       component={Moderation}
     />
