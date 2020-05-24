@@ -34,6 +34,13 @@ const UserSchema = new Schema(
       enum: ['STANDARD', 'MODERATOR', 'ANALYST', 'ADMIN'],
       default: 'STANDARD'
     },
+    avatar: {
+      type: String
+    },
+    prefersDarkMode: {
+      type: Boolean,
+      default: false
+    },
     enabled: {
       type: Boolean,
       select: false,
@@ -46,6 +53,12 @@ const UserSchema = new Schema(
 /* Hash Password */
 UserSchema.pre('save', function (next) {
   const user = this;
+
+  // Create Avatar
+  if (!user.avatar || user.avatar.trim() === '') {
+    user.avatar = `https://ui-avatars.com/api/?background=cccccc&color=fff&name=${user.first_name}+${user.last_name}`;
+  }
+
   // Only hash password if it was modified (or is new)
   if (!user.isModified('password')) return next();
   // Generate Salt
