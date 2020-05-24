@@ -43,7 +43,6 @@ const UserSchema = new Schema(
     },
     enabled: {
       type: Boolean,
-      select: false,
       default: true
     }
   },
