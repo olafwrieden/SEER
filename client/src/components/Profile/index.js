@@ -1,5 +1,7 @@
 import React from "react";
+import { FiEdit } from "react-icons/fi";
 import { useAuth } from "../App/Authentication";
+import "./Profile.css";
 
 const Profile = () => {
   const { user } = useAuth();
@@ -22,12 +24,15 @@ const Profile = () => {
               {/* Avatar */}
               <div className="columns is-flex is-centered">
                 <div className="column has-text-centered">
-                  <figure className="image is-128x128 is-inline-block">
+                  <figure className="image is-128x128 is-inline-block img-edit">
                     <img
-                      className="is-rounded"
+                      className="is-rounded avatar"
                       src={user?.avatar}
                       alt="Profile Avatar"
                     />
+                    <div className="middle has-text-dark">
+                      <FiEdit size="25px" />
+                    </div>
                   </figure>
                 </div>
               </div>
