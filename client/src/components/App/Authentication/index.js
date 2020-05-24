@@ -39,7 +39,18 @@ const useProvideAuth = () => {
       .catch((error) => error);
   };
 
-  return { user, isAuthed, signin };
+  // Handle sign out
+  const signout = () => {
+    return fetch("/api/v1/auth/logout", {
+      method: "GET",
+      headers: { "Content-type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then(() => setUser(null))
+      .catch((error) => console.log(error));
+  };
+
+  return { user, isAuthed, signin, signout };
 };
 
 /**
