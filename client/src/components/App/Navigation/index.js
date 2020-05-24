@@ -88,7 +88,11 @@ const Navigation = () => {
               <div className="field is-grouped">
                 {isAuthed ? (
                   <div className="navbar-item has-dropdown is-hoverable">
-                    <Link to="/profile" className="navbar-item">
+                    <Link
+                      to="/profile"
+                      className="navbar-item"
+                      onClick={() => setIsActive(false)}
+                    >
                       <img
                         src={user?.avatar}
                         alt="Profile Avatar"
@@ -100,20 +104,32 @@ const Navigation = () => {
                       className="navbar-dropdown is-right"
                       style={{ borderTop: "none" }}
                     >
-                      <Link to="/suggest" className="navbar-item">
+                      <Link
+                        to="/suggest"
+                        className="navbar-item"
+                        onClick={() => setIsActive(false)}
+                      >
                         <span className="icon">
                           <BsChat />
                         </span>
                         <span>Suggest</span>
                       </Link>
                       <hr className="navbar-divider" />
-                      <Link to="/profile" className="navbar-item">
+                      <Link
+                        to="/profile"
+                        className="navbar-item"
+                        onClick={() => setIsActive(false)}
+                      >
                         <span className="icon">
                           <FiUser />
                         </span>
                         <span>Profile</span>
                       </Link>
-                      <Link to="/logout" className="navbar-item">
+                      <Link
+                        to="/logout"
+                        className="navbar-item"
+                        onClick={() => setIsActive(false)}
+                      >
                         <span className="icon">
                           <FiPower />
                         </span>
