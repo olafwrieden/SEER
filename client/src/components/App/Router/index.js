@@ -17,7 +17,13 @@ const Router = () => (
   <Switch>
     <Route exact path="/" component={Landing} />
     <Route exact path="/suggest" component={Suggestion} />
-    <Route exact path="/moderate" component={Moderation} />
+    <ProtectedRoute
+      exact
+      roles={[Role.MODERATOR, Role.ADMIN]}
+      exact
+      path="/moderate"
+      component={Moderation}
+    />
     <ProtectedRoute
       exact
       roles={[Role.ADMIN]}
@@ -28,7 +34,7 @@ const Router = () => (
     <Route exact path="/login" component={Login} />
     <Route exact path="/logout" component={Logout} />
     <Route exact path="/register" component={Register} />
-    <Route exact path="/profile" component={Profile} />
+    <ProtectedRoute exact path="/profile" component={Profile} />
     <Route component={ErrorRoute} />
   </Switch>
 );
