@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const db = require('../middleware/db');
+const passport = require('passport');
 const {
   handleError,
   buildErrorObject,
@@ -46,6 +47,57 @@ exports.getUserById = async (req, res) => {
   try {
     const id = await isIDValid(req.params.id);
     res.status(200).json(await db.getEntry(id, User));
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+exports.deserialiseById = async (userId) => {
+  try {
+    const id = await isIDValid(userId);
+    return await db.getEntry(id, User);
+  } catch (error) {
+    return null;
+  }
+};
+
+exports.getUserByEmail = async (req, res) => {
+  try {
+    res.status(200).json(await db.getUserByEmail(req.params.emails));
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+exports.getProfile = async (req, res) => {
+  if (req.isAuthenticated()) {
+    try {
+      const id = await isIDValid(req.user.id);
+      res.status(200).json(await db.getEntry(id, User));
+    } catch (error) {
+      handleError(res, error);
+    }
+  } else {
+    res.status(401).send({ error: 'Not Authenticated' });
+  }
+};
+
+exports.login = async (req, res, next) => {
+  try {
+    passport.authenticate('local', (err, user, info) => {
+      if (info) return res.status(401).send(info);
+      if (err) return res.status(500).send({ error: err });
+      if (!user) {
+        return res.send({
+          error: 'You have entered an invalid email or password.'
+        });
+      }
+
+      req.login(user, (err) => {
+        if (err) return next(err);
+        return res.send(user);
+      });
+    })(req, res, next);
   } catch (error) {
     handleError(res, error);
   }

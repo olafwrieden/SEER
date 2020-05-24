@@ -29,6 +29,7 @@ const Register = () => {
                         id="firstName"
                         name="firstName"
                         type="text"
+                        value={firstName}
                         placeholder="John"
                         onChange={(e) => setFirstName(e.target.value)}
                       />
@@ -46,6 +47,7 @@ const Register = () => {
                         id="lastName"
                         name="lastName"
                         type="text"
+                        value={lastName}
                         placeholder="Appleseed"
                         onChange={(e) => setLastName(e.target.value)}
                       />
@@ -63,6 +65,7 @@ const Register = () => {
                     id="email"
                     name="email"
                     type="text"
+                    value={email}
                     placeholder="john@example.com"
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -78,6 +81,7 @@ const Register = () => {
                     id="password"
                     name="password"
                     type="password"
+                    value={password}
                     placeholder="*******"
                     onChange={(e) => setPassword(e.target.value)}
                   />

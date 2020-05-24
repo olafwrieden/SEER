@@ -36,6 +36,7 @@ const UserSchema = new Schema(
     },
     enabled: {
       type: Boolean,
+      select: false,
       default: true
     }
   },
@@ -66,6 +67,50 @@ UserSchema.methods.comparePassword = function (inputPassword, cb) {
     if (err) return cb(err);
     cb(null, isMatch);
   });
+};
+
+// Failed Login Reasons
+var reasons = (UserSchema.statics.failedLogin = {
+  NOT_FOUND: 0,
+  PASSWORD_INCORRECT: 1,
+  MAX_ATTEMPTS: 2,
+  DEACTIVATED: 3
+});
+
+UserSchema.methods.toJSON = function () {
+  const user = this.toObject();
+  user.id = user._id;
+  delete user._id;
+  delete user.__v;
+  delete user.updatedAt;
+  delete user.password;
+  delete user.enabled;
+  return user;
+};
+
+UserSchema.statics.getAuthenticated = function (email, password, cb) {
+  this.findOne({ email: email }, function (err, user) {
+    if (err) return cb(err);
+
+    // If user was not found
+    if (!user) return cb(null, null, reasons.NOT_FOUND);
+
+    // Validate password
+    user.comparePassword(password, function (err, isMatch) {
+      if (err) return cb(err);
+
+      // Password Valid
+      if (isMatch) {
+        // If user is deactivated
+        if (!user.enabled) return cb(null, null, reasons.DEACTIVATED);
+        // User is OK
+        return cb(null, user, null);
+      }
+
+      // Password is Invalid
+      return cb(null, null, reasons.PASSWORD_INCORRECT);
+    });
+  }).select('+password +enabled');
 };
 
 UserSchema.plugin(mongoosePaginate);

@@ -1,10 +1,21 @@
 import React, { useState } from "react";
 import { FaPaperPlane } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../App/Authentication";
 
-const Login = () => {
+const Login = ({ history, location }) => {
+  const { signin, isAuthed } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  // Reditect to previous page or home page
+  let { from } = location.state || { from: { pathname: "/" } };
+  if (isAuthed) history.replace(from); // FIXME: Updates state during transition
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    signin(email, password).then(() => history.replace(from));
+  };
 
   return (
     <section className="section">
@@ -24,6 +35,7 @@ const Login = () => {
                     id="email"
                     name="email"
                     type="text"
+                    value={email}
                     placeholder="john@example.com"
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -39,6 +51,7 @@ const Login = () => {
                     id="password"
                     name="password"
                     type="password"
+                    value={password}
                     placeholder="*******"
                     onChange={(e) => setPassword(e.target.value)}
                   />
@@ -49,7 +62,10 @@ const Login = () => {
               {/* Buttons */}
               <div className="field is-grouped">
                 <div className="control">
-                  <button className="button is-primary">
+                  <button
+                    className="button is-primary"
+                    onClick={(e) => handleLogin(e)}
+                  >
                     <span className="icon is-small">
                       <FaPaperPlane />
                     </span>

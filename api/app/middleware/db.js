@@ -3,6 +3,7 @@ const {
   buildSuccessObject,
   entryNotFound
 } = require('./utils');
+const User = require('../models/User');
 
 /* Build sort order for the query */
 const buildSort = (sort, order) => {
@@ -90,6 +91,16 @@ exports.getEntries = async (req, model, query) => {
 exports.getEntry = async (id, model) => {
   return new Promise((resolve, reject) => {
     model.findById(id, (error, entry) => {
+      entryNotFound(error, entry, reject, 'NOT_FOUND');
+      resolve(entry);
+    });
+  });
+};
+
+/* Fetches a user by Email */
+exports.getUserByEmail = async (email) => {
+  return new Promise((resolve, reject) => {
+    User.find({ email }, (error, entry) => {
       entryNotFound(error, entry, reject, 'NOT_FOUND');
       resolve(entry);
     });

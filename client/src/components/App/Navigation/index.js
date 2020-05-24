@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../Authentication";
 
 const Navigation = () => {
   const [isActive, setIsActive] = useState(false);
+  const { isAuthed } = useAuth();
   const { PUBLIC_URL } = process.env;
 
   return (
@@ -80,24 +82,40 @@ const Navigation = () => {
           <div className="navbar-end">
             <div className="navbar-item">
               <div className="field is-grouped">
-                <p className="control">
-                  <Link
-                    className="button is-primary is-outlined"
-                    to="/register"
-                    onClick={() => setIsActive(false)}
-                  >
-                    Register
-                  </Link>
-                </p>
-                <p className="control">
-                  <Link
-                    className="button is-primary"
-                    to="/login"
-                    onClick={() => setIsActive(false)}
-                  >
-                    Login
-                  </Link>
-                </p>
+                {isAuthed ? (
+                  <>
+                    <p className="control">
+                      <Link
+                        className="button is-primary is-outlined"
+                        to="/Profile"
+                        onClick={() => setIsActive(false)}
+                      >
+                        Profile
+                      </Link>
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="control">
+                      <Link
+                        className="button is-primary is-outlined"
+                        to="/register"
+                        onClick={() => setIsActive(false)}
+                      >
+                        Register
+                      </Link>
+                    </p>
+                    <p className="control">
+                      <Link
+                        className="button is-primary"
+                        to="/login"
+                        onClick={() => setIsActive(false)}
+                      >
+                        Login
+                      </Link>
+                    </p>
+                  </>
+                )}
               </div>
             </div>
           </div>

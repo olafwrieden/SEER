@@ -1,16 +1,20 @@
 import React from "react";
+import { useAuth } from "../App/Authentication";
 import Statistic from "./components/Statistic";
 import UserOverview from "./components/UserOverview";
 import UserTable from "./components/UserTable";
 
 const Dashboard = () => {
+  const { user } = useAuth();
+  const name = `${user.first_name} ${user.last_name}`;
+
   return (
     <>
       <section className="section">
         <div className="container">
           {/* User Greeting */}
           <h1 className="title has-text-grey-light">
-            Hello <span className="has-text-dark">John Appleseed</span>
+            Hello <span className="has-text-dark">{name}</span>
           </h1>
 
           {/* Platform Statistics */}
