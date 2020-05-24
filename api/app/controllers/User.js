@@ -5,7 +5,8 @@ const {
   handleError,
   buildErrorObject,
   isIDValid,
-  entryAlreadyExists
+  entryAlreadyExists,
+  buildSuccessObject
 } = require('../middleware/utils');
 
 const create = async (req) => {
@@ -100,6 +101,19 @@ exports.login = async (req, res, next) => {
     })(req, res, next);
   } catch (error) {
     handleError(res, error);
+  }
+};
+
+exports.logout = async (req, res, next) => {
+  if (req.session) {
+    req.logOut();
+    req.session.destroy(function (err) {
+      if (err) {
+        return next(err);
+      } else {
+        return res.send(buildSuccessObject('Successfully logged out.'));
+      }
+    });
   }
 };
 

@@ -1,10 +1,12 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Login from "../../Auth/Login";
+import Logout from "../../Auth/Logout";
 import Register from "../../Auth/Register";
 import Dashboard from "../../Dashboard";
 import Landing from "../../Landing";
 import Moderation from "../../Moderation";
+import Profile from "../../Profile";
 import Search from "../../Search";
 import Suggestion from "../../Suggestion";
 import { Role } from "../Authentication";
@@ -24,7 +26,9 @@ const Router = () => (
     />
     <Route exact path="/browse" component={Search} />
     <Route exact path="/login" component={Login} />
+    <Route exact path="/logout" component={Logout} />
     <Route exact path="/register" component={Register} />
+    <Route exact path="/profile" component={Profile} />
     <Route component={ErrorRoute} />
   </Switch>
 );
