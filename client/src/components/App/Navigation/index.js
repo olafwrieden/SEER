@@ -91,7 +91,7 @@ const Navigation = () => {
                     <Link to="/profile" className="navbar-item">
                       <img
                         src={user?.avatar}
-                        height={28}
+                        alt="Profile Avatar"
                         style={{ borderRadius: "50%" }}
                       />
                       <span style={{ marginLeft: "10px" }}>{name}</span>

@@ -23,7 +23,11 @@ const Profile = () => {
               <div className="columns is-flex is-centered">
                 <div className="column has-text-centered">
                   <figure className="image is-128x128 is-inline-block">
-                    <img className="is-rounded" src={user?.avatar} />
+                    <img
+                      className="is-rounded"
+                      src={user?.avatar}
+                      alt="Profile Avatar"
+                    />
                   </figure>
                 </div>
               </div>
