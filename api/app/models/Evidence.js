@@ -29,6 +29,9 @@ const EvidenceSchema = new Schema(
     outcome: {
       type: String
     },
+    doi: {
+      type: String
+    },
     ratings: {
       type: [RatingSchema]
     },
