@@ -49,6 +49,13 @@ const Profile = () => {
                     <span className="tag">{user?.role}</span>
                   </div>
                 </div>
+
+                <div className="column is-12">
+                  <h3 className="is-size-5 has-text-centered">
+                    <strong>Email: </strong>
+                    {user?.email}
+                  </h3>
+                </div>
               </div>
             </div>
             {/* Spacer */}
