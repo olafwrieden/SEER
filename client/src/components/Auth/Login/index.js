@@ -7,6 +7,7 @@ const Login = ({ history, location }) => {
   const { signin, isAuthed } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   // Reditect to previous page or home page
   let { from } = location.state || { from: { pathname: "/" } };
@@ -14,7 +15,15 @@ const Login = ({ history, location }) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    signin(email, password).then(() => history.replace(from));
+    signin(email, password)
+      .then((res) => {
+        if (res.error || res.message) {
+          return setError(res.error || res.message);
+        } else {
+          return history.replace(from);
+        }
+      })
+      .catch((res) => setError(res));
   };
 
   return (
@@ -58,6 +67,10 @@ const Login = ({ history, location }) => {
                 </div>
                 {/* <Link to="/register">Forgot Password?</Link> */}
               </div>
+
+              {error && (
+                <div className="notification is-danger is-light">{error}</div>
+              )}
 
               {/* Buttons */}
               <div className="field is-grouped">
