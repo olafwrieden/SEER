@@ -2,6 +2,7 @@ import React from "react";
 import CaughtUp from "../../utils/CaughtUp";
 import { RecordType } from "../../utils/RecordType";
 import Entry from "./components/Entry";
+import ProgressChart from "./components/ProgressChart";
 
 const entries = [
   {
@@ -9,31 +10,35 @@ const entries = [
     name:
       "Emergence of plasmid-mediated colistin resistance mechanism MCR-1 in animals and human beings in China: a microbiological and molecular biological study",
     __type: "BOOK",
-    date: "12 September 2020",
-    author: "Barney, J. B., & Wright, P. M.",
+    date: "12/09/20",
+    doi: "10.1037/a0028240",
+    url: "https://www.google.com",
   },
   {
     id: 2,
     name:
       "Understanding Market–Driving Behaviour: The Role of Entrepreneurship",
     __type: "JOURNAL",
-    date: "2 July 2003",
-    author: "Dunning, J. H.",
+    date: "28/04/20",
+    doi: "10.1037/a7728243",
+    url: "https://www.google.com",
   },
   {
     id: 3,
     name: "Impact of Ownership on the International Involvement of SMEs.",
     __type: "JOURNAL",
-    date: "30 January 1994",
-    author: "Renko, M., El Tarabishy, A., Carsrud, A., & Brännback, M.",
+    date: "21/02/20",
+    doi: "10.1037/a0928247",
+    url: "https://www.google.com",
   },
   {
     id: 4,
     name:
       "The Eclectic (OLI) Paradigm of International Production: Past, Present and Future.",
     __type: "WEBSITE",
-    date: "9 March 2007",
-    author: "Schindehutte, M., Morris, M. H., & Kocak, A.",
+    date: "17/02/20",
+    doi: "10.1037/a0028301",
+    url: "https://www.google.com",
   },
 ];
 
@@ -51,23 +56,33 @@ const Moderation = () => {
 
       <section className="section">
         <div className="container">
-          {/* Display new entries for moderation */}
-          {entries.map(({ id, name, __type, date, author }) => (
-            <Entry
-              key={id}
-              title={name}
-              type={RecordType[__type]}
-              date={date}
-              author={author}
-            />
-          ))}
+          <div className="columns">
+            {/* Progress Chart */}
+            <div className="column is-3-desktop is-4-tablet">
+              <ProgressChart pending={entries.length} />
+            </div>
 
-          {/* Display "Caught Up" if moderation queue is empty */}
-          {!entries.length && (
-            <CaughtUp>
-              Submissions requiring your approval will be shown here.
-            </CaughtUp>
-          )}
+            <div className="column">
+              {/* Display new entries for moderation */}
+              {entries.map(({ id, name, __type, date, doi, url }) => (
+                <Entry
+                  key={id}
+                  title={name}
+                  type={RecordType[__type]}
+                  date={date}
+                  doi={doi}
+                  url={url}
+                />
+              ))}
+
+              {/* Display "Caught Up" if moderation queue is empty */}
+              {!entries.length && (
+                <CaughtUp>
+                  Submissions requiring your approval will be shown here.
+                </CaughtUp>
+              )}
+            </div>
+          </div>
         </div>
       </section>
     </>

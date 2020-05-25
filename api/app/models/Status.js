@@ -9,7 +9,7 @@ const StatusSchema = new Schema(
       type: String,
       enum: [
         'REJECTED', // Evidence is rejected
-        'PENDING_APPROVAL', // Eidence is submitted (to be moderated)
+        'PENDING_APPROVAL', // Evidence is submitted (to be moderated)
         'PENDING_ANALYSIS', // Evidence is approved (to be analysed)
         'AVAILABLE', // Evidence is publicly available
         'UNAVAILABLE' // Evidence is publicly unavailable
