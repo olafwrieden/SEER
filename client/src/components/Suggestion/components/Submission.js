@@ -1,51 +1,33 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-//import { BookSchema } from "../../../../../api/app/models/Book"; 
-//I dont know how to get BookSchema, so i made the temporary object as an example
-
-const tempBookSchema = {
-  title: {
-    type: String,
-    required: [true, 'A title is required.']
-  },
-  city: {
-    type: String,
-    required: [true, 'A city is required.']
-  },
-  publisher: {
-    type: String,
-    required: [true, 'A publisher is required.']
-  },
-  year: {
-    type: Number,
-    required: [true, 'A year is required.']
-  },
-  volume: {
-    type: Number
-  }
-}
+import { RecordType } from "../../../utils/RecordType";
 
 const Submission = () => {
-  let { type } = useParams();
-  let recordType = type.toLowerCase();
+  const { type } = useParams();
+  const urlType = type.replace("%20", " ");
+  const icon = RecordType[urlType].icon || RecordType.UNCLASSIFIED.icon;
+
   return (
     <>
       <section className="section">
         <div className="container">
-          <h2 className="subtitle">Suggest a new {recordType}</h2>
+          <h2 className="subtitle">Suggest a new {urlType.toLowerCase()}</h2>
           <div className="columns is-multiline">
             <div className="column is-6-tablet is-6-desktop">
-              <p>Somehow map over fields in evidence schema, for example...</p>
+              <i className={`${icon} has-text-primary`} aria-hidden="true"></i>
             </div>
             <div className="column is-6-tablet is-6-desktop">
               <form className="">
-                {Object.keys(tempBookSchema).map((field, i) => (
-                  <div className="field" key={i}>
-                    <div className="control">
-                      <input className="input" type="text" placeholder={field} />
-                    </div>
+                <div className="field">
+                  <div className="control">
+                    <input className="input" type="text" required="required" placeholder="DOI" />
                   </div>
-                ))}
+                </div>
+                <div className="field">
+                  <div className="control">
+                    <input className="input" type="text" required="required" placeholder="Link to evidence record" />
+                  </div>
+                </div>
                 <div className="field is-grouped">
                   <div className="control">
                     <button className="button is-link">Submit</button>
