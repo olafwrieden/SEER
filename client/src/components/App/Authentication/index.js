@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { buildErrorObject } from "../../../../../api/app/middleware/utils";
 
 // Create Authentication Context
 const AuthContext = createContext();
@@ -35,13 +34,14 @@ const useProvideAuth = () => {
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({ email, password }),
     })
+      .then((res) => res.json())
       .then((res) => {
-        const data = res.json();
-        if (!data.error) {
-          setUser(data);
+        if (!res?.error && !res?.message) {
+          return setUser(res);
         }
-        return data;
+        return res;
       })
+
       .catch((error) => error);
   };
 
@@ -51,13 +51,7 @@ const useProvideAuth = () => {
       method: "GET",
       headers: { "Content-type": "application/json" },
     })
-      .then((res) => {
-        const data = res.json();
-        if (!data.error) {
-          setUser(null);
-        }
-        return buildErrorObject(500, "Unable to log out.");
-      })
+      .then(() => setUser(null))
       .catch((error) => error);
   };
 

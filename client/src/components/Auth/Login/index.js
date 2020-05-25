@@ -17,10 +17,10 @@ const Login = ({ history, location }) => {
     e.preventDefault();
     signin(email, password)
       .then((res) => {
-        if (res.error || res.message) {
-          return setError(res.error || res.message);
+        if (res?.error || res?.message) {
+          setError(res?.error || res?.message);
         } else {
-          return history.replace(from);
+          history.replace(from);
         }
       })
       .catch((res) => setError(res));
