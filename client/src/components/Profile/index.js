@@ -73,8 +73,11 @@ const Profile = () => {
                 <FiEye size="4em" className="has-text-primary" />
                 <p className="subtitle has-text-centered">Coming Soon</p>
                 <p className="has-text-centered">
-                  Good things come to those who wait (or get the early access
-                  😉)
+                  Good things come to those who wait (or get early access
+                  <span role="img" aria-label="emoji">
+                    😉
+                  </span>
+                  )
                 </p>
               </div>
             </div>
