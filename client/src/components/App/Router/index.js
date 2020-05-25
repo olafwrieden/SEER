@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import Analysis from "../../Analysis";
 import Login from "../../Auth/Login";
 import Logout from "../../Auth/Logout";
 import Register from "../../Auth/Register";
@@ -22,6 +23,12 @@ const Router = () => (
       roles={[Role.MODERATOR, Role.ADMIN]}
       path="/moderate"
       component={Moderation}
+    />
+    <ProtectedRoute
+      exact
+      roles={[Role.ANALYST, Role.ADMIN]}
+      path="/analyse"
+      component={Analysis}
     />
     <ProtectedRoute
       exact
