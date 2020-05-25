@@ -1,5 +1,5 @@
 import React from "react";
-import { FiEdit } from "react-icons/fi";
+import { FiEdit, FiEye } from "react-icons/fi";
 import { useAuth } from "../App/Authentication";
 import "./Profile.css";
 
@@ -61,7 +61,23 @@ const Profile = () => {
             {/* Spacer */}
             <div className="column is-1"></div>
             {/* Body */}
-            <div className="column is-two-thirds box"></div>
+            <div
+              className="column is-two-thirds box is-fullwidth"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <div className="has-text-centered">
+                <FiEye size="4em" className="has-text-primary" />
+                <p className="subtitle has-text-centered">Coming Soon</p>
+                <p className="has-text-centered">
+                  Good things come to those who wait (or get the early access
+                  😉)
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
