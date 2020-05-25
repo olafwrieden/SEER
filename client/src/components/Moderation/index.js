@@ -1,8 +1,8 @@
 import React from "react";
 import CaughtUp from "../../utils/CaughtUp";
+import ProgressChart from "../../utils/ProgressChart";
 import { RecordType } from "../../utils/RecordType";
 import Entry from "./components/Entry";
-import ProgressChart from "./components/ProgressChart";
 
 const entries = [
   {
@@ -59,7 +59,7 @@ const Moderation = () => {
           <div className="columns">
             {/* Progress Chart */}
             <div className="column is-3-desktop is-4-tablet">
-              <ProgressChart pending={entries.length} />
+              <ProgressChart title="Approval Queue" count={entries.length} />
             </div>
 
             <div className="column">
