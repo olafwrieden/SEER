@@ -9,19 +9,25 @@ const {
   buildSuccessObject
 } = require('../middleware/utils');
 
-const create = async (req) => {
+/**
+ * Create a user in the database.
+ * @description This method is shared between POST /users & POST /register
+ * @param {Object} req request object
+ * @param {Boolean} isAdmin used to determine if role field can be set or not.
+ */
+const create = async (req, isAdmin) => {
   return new Promise((resolve, reject) => {
     const user = new User({
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       email: req.body.email,
       password: req.body.password,
-      role: req.body.role
+      ...(isAdmin && { role: req.body.role }) // Only Admin can set role, others fall back to default role
     });
     user.save((error, item) => {
       if (error) return reject(buildErrorObject(422, error.message));
       const removeProperties = ({ password, ...rest }) => rest;
-      resolve(removeProperties(item.toObject()));
+      resolve(removeProperties(item.toJSON()));
     });
   });
 };
@@ -121,7 +127,8 @@ exports.createUser = async (req, res) => {
   try {
     const doesEmailExists = await emailExists(req.body.email);
     if (!doesEmailExists) {
-      const item = await create(req);
+      const isAdmin = req.isAuthenticated() && req.user.role === 'ADMIN';
+      const item = await create(req, isAdmin);
       // TODO: Send Registration Email
       res.status(201).json(item);
     }
