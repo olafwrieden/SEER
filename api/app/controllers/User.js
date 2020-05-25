@@ -123,12 +123,20 @@ exports.logout = async (req, res, next) => {
   }
 };
 
-exports.createUser = async (req, res) => {
+exports.createUser = async (req, res, next) => {
   try {
     const doesEmailExists = await emailExists(req.body.email);
     if (!doesEmailExists) {
       const isAdmin = req.isAuthenticated() && req.user.role === 'ADMIN';
       const item = await create(req, isAdmin);
+
+      // Log in if they registered, not if admin created account
+      if (!req.isAuthenticated()) {
+        req.login(item, (err) => {
+          if (err) return next(err);
+        });
+      }
+
       // TODO: Send Registration Email
       res.status(201).json(item);
     }
