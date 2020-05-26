@@ -12,9 +12,6 @@ const Register = ({ location }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  // Reditect to previous page or home page
-  let { from } = location.state || { from: { pathname: "/" } };
-
   const handleRegistration = (e) => {
     e.preventDefault();
     signup(firstName, lastName, organisation, email, password)
@@ -28,7 +25,7 @@ const Register = ({ location }) => {
 
   return (
     <>
-      {isAuthed && <Redirect to={from} />}
+      {isAuthed && <Redirect to="/" />}
       <section className="section">
         <div className="container">
           <div className="columns">
