@@ -59,7 +59,7 @@ UserSchema.pre('save', function (next) {
 
   // Create Avatar
   if (!user.avatar || user.avatar.trim() === '') {
-    user.avatar = `https://ui-avatars.com/api/?background=cccccc&color=fff&name=${user.first_name}+${user.last_name}`;
+    user.avatar = `https://ui-avatars.com/api/?background=cccccc&color=fff&name=${user.first_name}+${user.last_name}&format=svg`;
   }
 
   // Only hash password if it was modified (or is new)
