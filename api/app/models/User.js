@@ -29,10 +29,21 @@ const UserSchema = new Schema(
       select: false,
       required: [true, 'Password is required.']
     },
+    organisation: {
+      type: String,
+      default: ''
+    },
     role: {
       type: String,
       enum: ['STANDARD', 'MODERATOR', 'ANALYST', 'ADMIN'],
       default: 'STANDARD'
+    },
+    avatar: {
+      type: String
+    },
+    prefersDarkMode: {
+      type: Boolean,
+      default: false
     },
     enabled: {
       type: Boolean,
@@ -45,6 +56,12 @@ const UserSchema = new Schema(
 /* Hash Password */
 UserSchema.pre('save', function (next) {
   const user = this;
+
+  // Create Avatar
+  if (!user.avatar || user.avatar.trim() === '') {
+    user.avatar = `https://ui-avatars.com/api/?background=cccccc&color=fff&name=${user.first_name}+${user.last_name}&format=svg`;
+  }
+
   // Only hash password if it was modified (or is new)
   if (!user.isModified('password')) return next();
   // Generate Salt
@@ -66,6 +83,50 @@ UserSchema.methods.comparePassword = function (inputPassword, cb) {
     if (err) return cb(err);
     cb(null, isMatch);
   });
+};
+
+// Failed Login Reasons
+var reasons = (UserSchema.statics.failedLogin = {
+  NOT_FOUND: 0,
+  PASSWORD_INCORRECT: 1,
+  MAX_ATTEMPTS: 2,
+  DEACTIVATED: 3
+});
+
+UserSchema.methods.toJSON = function () {
+  const user = this.toObject();
+  user.id = user._id;
+  delete user._id;
+  delete user.__v;
+  delete user.updatedAt;
+  delete user.password;
+  delete user.enabled;
+  return user;
+};
+
+UserSchema.statics.getAuthenticated = function (email, password, cb) {
+  this.findOne({ email: email }, function (err, user) {
+    if (err) return cb(err);
+
+    // If user was not found
+    if (!user) return cb(null, null, reasons.NOT_FOUND);
+
+    // Validate password
+    user.comparePassword(password, function (err, isMatch) {
+      if (err) return cb(err);
+
+      // Password Valid
+      if (isMatch) {
+        // If user is deactivated
+        if (!user.enabled) return cb(null, null, reasons.DEACTIVATED);
+        // User is OK
+        return cb(null, user, null);
+      }
+
+      // Password is Invalid
+      return cb(null, null, reasons.PASSWORD_INCORRECT);
+    });
+  }).select('+password +enabled');
 };
 
 UserSchema.plugin(mongoosePaginate);

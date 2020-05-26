@@ -8,7 +8,7 @@ exports.handleError = (res, error) => {
   }
   // Send error
   res.status(error.code).json({
-    errors: {
+    error: {
       message: error.message
     }
   });

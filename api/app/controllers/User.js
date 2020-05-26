@@ -1,25 +1,34 @@
 const User = require('../models/User');
 const db = require('../middleware/db');
+const passport = require('passport');
 const {
   handleError,
   buildErrorObject,
   isIDValid,
-  entryAlreadyExists
+  entryAlreadyExists,
+  buildSuccessObject
 } = require('../middleware/utils');
 
-const create = async (req) => {
+/**
+ * Create a user in the database.
+ * @description This method is shared between POST /users & POST /register
+ * @param {Object} req request object
+ * @param {Boolean} isAdmin used to determine if role field can be set or not.
+ */
+const create = async (req, isAdmin) => {
   return new Promise((resolve, reject) => {
     const user = new User({
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       email: req.body.email,
       password: req.body.password,
-      role: req.body.role
+      organisation: req.body.organisation,
+      ...(isAdmin && { role: req.body.role }) // Only Admin can set role, others fall back to default role
     });
     user.save((error, item) => {
       if (error) return reject(buildErrorObject(422, error.message));
       const removeProperties = ({ password, ...rest }) => rest;
-      resolve(removeProperties(item.toObject()));
+      resolve(removeProperties(item.toJSON()));
     });
   });
 };
@@ -51,11 +60,84 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-exports.createUser = async (req, res) => {
+exports.deserialiseById = async (userId) => {
+  try {
+    const id = await isIDValid(userId);
+    return await db.getEntry(id, User);
+  } catch (error) {
+    return null;
+  }
+};
+
+exports.getUserByEmail = async (req, res) => {
+  try {
+    res.status(200).json(await db.getUserByEmail(req.params.emails));
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+exports.getProfile = async (req, res) => {
+  if (req.isAuthenticated()) {
+    try {
+      const id = await isIDValid(req.user.id);
+      res.status(200).json(await db.getEntry(id, User));
+    } catch (error) {
+      handleError(res, error);
+    }
+  } else {
+    res.status(401).send({ error: 'Not Authenticated' });
+  }
+};
+
+exports.login = async (req, res, next) => {
+  try {
+    passport.authenticate('local', (err, user, info) => {
+      if (info) return res.status(401).send(info);
+      if (err) return res.status(500).send({ error: err });
+      if (!user) {
+        return res.send({
+          error: 'You have entered an invalid email or password.'
+        });
+      }
+
+      req.login(user, (err) => {
+        if (err) return next(err);
+        return res.send(user);
+      });
+    })(req, res, next);
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+exports.logout = async (req, res, next) => {
+  if (req.session) {
+    req.logOut();
+    req.session.destroy(function (err) {
+      if (err) {
+        return next(err);
+      } else {
+        return res.send(buildSuccessObject('Successfully logged out.'));
+      }
+    });
+  }
+};
+
+exports.createUser = async (req, res, next) => {
   try {
     const doesEmailExists = await emailExists(req.body.email);
     if (!doesEmailExists) {
-      const item = await create(req);
+      const isAdmin = req.isAuthenticated() && req.user.role === 'ADMIN';
+      const item = await create(req, isAdmin);
+
+      // Log in if they registered, not if admin created account
+      if (!req.isAuthenticated()) {
+        req.login(item, (err) => {
+          if (err) return next(err);
+        });
+      }
+
       // TODO: Send Registration Email
       res.status(201).json(item);
     }

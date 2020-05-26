@@ -42,14 +42,14 @@ const entries = [
   },
 ];
 
-const Moderation = () => {
+const Analysis = () => {
   return (
     <>
       <section className="section">
         <div className="container">
-          <h2 className="title">New Submissions</h2>
+          <h2 className="title">Evidence Analysis</h2>
           <p className="subtitle">
-            Help us improve the quality of SEER resources.
+            Help us ensure our data is accurate and reliable.
           </p>
         </div>
       </section>
@@ -59,11 +59,11 @@ const Moderation = () => {
           <div className="columns">
             {/* Progress Chart */}
             <div className="column is-3-desktop is-4-tablet">
-              <ProgressChart title="Approval Queue" count={entries.length} />
+              <ProgressChart title="Analysis Queue" count={entries.length} />
             </div>
 
             <div className="column">
-              {/* Display new entries for moderation */}
+              {/* Display new entries for analysis */}
               {entries.map(({ id, name, __type, date, doi, url }) => (
                 <Entry
                   key={id}
@@ -75,10 +75,10 @@ const Moderation = () => {
                 />
               ))}
 
-              {/* Display "Caught Up" if moderation queue is empty */}
+              {/* Display "Caught Up" if analysis queue is empty */}
               {!entries.length && (
                 <CaughtUp>
-                  Submissions requiring your approval will be shown here.
+                  Submissions requiring your analysis will be shown here.
                 </CaughtUp>
               )}
             </div>
@@ -89,4 +89,4 @@ const Moderation = () => {
   );
 };
 
-export default Moderation;
+export default Analysis;

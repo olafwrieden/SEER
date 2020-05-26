@@ -1,6 +1,7 @@
 import React from "react";
 import { AiFillStar } from "react-icons/ai";
 import { RecordType } from "../../../utils/RecordType";
+import { useAuth } from "../../App/Authentication";
 
 const Result = ({
   title,
@@ -13,6 +14,7 @@ const Result = ({
   seMethod,
 }) => {
   const icon = type?.icon || RecordType.UNCLASSIFIED.icon;
+  const { isAuthed } = useAuth();
 
   return (
     <div className="box">
@@ -49,12 +51,19 @@ const Result = ({
           <br />
           {date}
           <br />
-          <div>
-            <span className="icons has-text-warning">
+          <div className="columns is-multiline">
+            <span className="column is-12 icons has-text-warning">
               {[...Array(rating)].map((_, i) => (
                 <AiFillStar key={i} />
               ))}
             </span>
+            {isAuthed && (
+              <span className="column is-12">
+                <button className="button is-small is-outlined is-dark">
+                  Add Review
+                </button>
+              </span>
+            )}
           </div>
         </div>
 
