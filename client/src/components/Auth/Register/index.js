@@ -3,7 +3,7 @@ import { FiCheck } from "react-icons/fi";
 import { Link, Redirect } from "react-router-dom";
 import { useAuth } from "../../App/Authentication";
 
-const Register = ({ location }) => {
+const Register = () => {
   const { signup, isAuthed } = useAuth();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
