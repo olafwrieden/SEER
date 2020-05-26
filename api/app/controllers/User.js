@@ -22,6 +22,7 @@ const create = async (req, isAdmin) => {
       last_name: req.body.last_name,
       email: req.body.email,
       password: req.body.password,
+      organisation: req.body.organisation,
       ...(isAdmin && { role: req.body.role }) // Only Admin can set role, others fall back to default role
     });
     user.save((error, item) => {

@@ -56,6 +56,15 @@ const Profile = () => {
                     {user?.email}
                   </h3>
                 </div>
+
+                {user?.organisation && (
+                  <div className="column is-12">
+                    <h3 className="is-size-5 has-text-centered">
+                      <strong>Organisation: </strong>
+                      {user?.organisation}
+                    </h3>
+                  </div>
+                )}
               </div>
             </div>
             {/* Spacer */}

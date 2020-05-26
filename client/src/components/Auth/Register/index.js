@@ -7,6 +7,7 @@ const Register = ({ location }) => {
   const { signup, isAuthed } = useAuth();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [organisation, setOrganisation] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -16,7 +17,7 @@ const Register = ({ location }) => {
 
   const handleRegistration = (e) => {
     e.preventDefault();
-    signup(firstName, lastName, email, password)
+    signup(firstName, lastName, organisation, email, password)
       .then((res) => {
         if (res?.error || res?.message) {
           setError(res?.error || res?.message);
@@ -87,6 +88,22 @@ const Register = ({ location }) => {
                       value={email}
                       placeholder="john@example.com"
                       onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                {/* Organisation Field */}
+                <div className="field">
+                  <label className="label">Organisation</label>
+                  <div className="control">
+                    <input
+                      className="input"
+                      id="organisation"
+                      name="organisation"
+                      type="text"
+                      value={organisation}
+                      placeholder="Auckland University of Technology"
+                      onChange={(e) => setOrganisation(e.target.value)}
                     />
                   </div>
                 </div>

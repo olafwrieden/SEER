@@ -55,11 +55,17 @@ const useProvideAuth = () => {
   };
 
   // Handle signing up
-  const signup = (first_name, last_name, email, password) => {
+  const signup = (first_name, last_name, organisation, email, password) => {
     return fetch("/api/v1/auth/register", {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ first_name, last_name, email, password }),
+      body: JSON.stringify({
+        first_name,
+        last_name,
+        organisation,
+        email,
+        password,
+      }),
     })
       .then((res) => res.json())
       .then((res) => {
