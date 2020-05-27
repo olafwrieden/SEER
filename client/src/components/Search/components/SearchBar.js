@@ -3,6 +3,7 @@ import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 
+//const [method, setMethod] = useState({});
 
 class SearchBar extends Component {
   constructor(props) {
