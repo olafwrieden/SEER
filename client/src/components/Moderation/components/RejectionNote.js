@@ -62,7 +62,7 @@ const RejectionNotice = ({ isOpen, toggle }) => {
             </div>
           </div>
 
-          {/* Rejection Comment Field*/}
+          {/* Rejection Comment Field */}
           <div className="columns">
             <div className="column">
               <div className="field">

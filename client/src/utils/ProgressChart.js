@@ -7,9 +7,9 @@ const data = [
   { value: 32, fill: "#eeeeee" },
 ];
 
-const ProgressChart = ({ pending }) => (
+const ProgressChart = ({ title, count }) => (
   <div className="box" style={{ marginBottom: "20px" }}>
-    <h5 className="subtitle has-text-centered">Approval Queue</h5>
+    <h5 className="subtitle has-text-centered">{title}</h5>
     <div style={{ position: "relative" }}>
       <ResponsiveContainer height={180}>
         <PieChart>
@@ -32,7 +32,7 @@ const ProgressChart = ({ pending }) => (
         }}
       >
         <FaHourglass className="has-text-danger" />
-        <p style={{ fontSize: "56px", lineHeight: "60px" }}>{pending}</p>
+        <p style={{ fontSize: "56px", lineHeight: "60px" }}>{count}</p>
         <p style={{ marginTop: "5px" }}>Pending</p>
       </div>
     </div>
