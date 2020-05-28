@@ -146,6 +146,15 @@ exports.createUser = async (req, res, next) => {
   }
 };
 
+exports.deleteUser = async (req, res) => {
+  try {
+    const userId = await isIDValid(req.params.id);
+    res.send(await db.deleteEntry(userId, User));
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
 exports.getUserStats = async () => {
   try {
     const stats = await User.aggregate([
