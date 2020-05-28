@@ -5,13 +5,23 @@ import { FiPlusCircle, FiTrash } from "react-icons/fi";
 class Filters extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {selectValue: 'Draft Value'};
+        
+        this.state = {selectValue: null 
+        
+            // ,defaultmethod : null
+        };
     
         this.handleChange = this.handleChange.bind(this);
       }
 
 
     /* handleChange() function to set a new state for input */
+    
+    // handleChange = (defaultmethod) => {
+    //     this.setState({ defaultmethod });
+    //     console.log(`Option selected:`, props.defaultmethod);
+    //   }
+
     handleChange = event => {
         this.setState({selectValue : event.target.value});
         console.log("Option selected:", this.state.selectValue);
@@ -19,6 +29,7 @@ class Filters extends React.Component {
 
 
     render() {
+        //const { defaultmethod } = this.state;
         return (
             
             <div
@@ -104,8 +115,6 @@ class Filters extends React.Component {
                     {this.state.showFilter && <Filters />}
                 </div>
             </div>
-
-
         )
 
     }

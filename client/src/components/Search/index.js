@@ -8,11 +8,14 @@ const Search = () => {
 
   const [filters, setFilters] = useState([{method: "defaultMethod", operator: "has", value: "something"}]);
   
-  const addFilter = (v1,v2,v3) => {
+  const addFilter = (defautmethod,defaultOperator,defaultValue) => {
 
     // TODO: extract the text from values
-
-    setFilters(filters => [...filters, {method: Filters.method, operator: "Contains", value: "TDD"}])
+    defautmethod = "method";
+    defaultOperator = "operator";
+    defaultValue = "value";
+    
+    setFilters(filters => [...filters, {method: defautmethod, operator: defaultOperator, value: defaultValue}])
     console.log("User wants to add another filter");
     console.log(filters);
     
