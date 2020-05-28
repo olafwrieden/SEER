@@ -11,7 +11,6 @@ import Profile from "../../Profile";
 import Search from "../../Search";
 import Suggestion from "../../Suggestion";
 import Submission from '../../Suggestion/components/Submission';
-import NotFound from "./NotFound";
 import { Role } from "../Authentication";
 import ProtectedRoute from "../Authentication/ProtectedRoute";
 import ErrorRoute from "./ErrorRoute";
