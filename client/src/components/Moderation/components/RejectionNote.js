@@ -7,7 +7,7 @@ const Reasons = [
   { name: "other", button: "Other" },
 ];
 
-const RejectionNotice = ({ isOpen, toggle }) => {
+const RejectionNote = ({ id, isOpen, toggle }) => {
   // Rejection State
   const [reason, setReason] = useState("");
   const [comment, setComment] = useState("");
@@ -24,6 +24,11 @@ const RejectionNotice = ({ isOpen, toggle }) => {
     setComment("");
     toggle();
   };
+
+  const mockRejectAPICall = () => {
+    console.log("Rejecting " + id + " because " + reason);
+    handleBackButton();
+  }
 
   return (
     <div className={`modal ${isOpen ? "is-active" : ""}`}>
@@ -51,7 +56,7 @@ const RejectionNotice = ({ isOpen, toggle }) => {
                       key={r.name}
                       className={`button ${
                         reason === r.name ? "is-primary" : ""
-                      }`}
+                        }`}
                       onClick={() => setReason(r.name)}
                     >
                       {r.button}
@@ -75,14 +80,14 @@ const RejectionNotice = ({ isOpen, toggle }) => {
                     value={comment}
                     className={`input ${
                       isCommentRequired && !isCommentValid ? "is-danger" : ""
-                    }`}
+                      }`}
                     id="rejectionReason"
                     name="rejectionReason"
                     type="text"
                     placeholder="This submission was rejected because..."
                   />
                   {isCommentRequired && !isCommentValid && (
-                    <p class="help is-danger">
+                    <p className="help is-danger">
                       A reason is required (minimum 20 characters)
                     </p>
                   )}
@@ -93,7 +98,7 @@ const RejectionNotice = ({ isOpen, toggle }) => {
         </section>
 
         <footer className="modal-card-foot">
-          <button disabled={isButtonDisabled} className="button is-danger">
+          <button disabled={isButtonDisabled} className="button is-danger" onClick={mockRejectAPICall}>
             <span className="icon is-small">
               <i className="fas fa-times" aria-hidden="true"></i>
             </span>
@@ -111,4 +116,4 @@ const RejectionNotice = ({ isOpen, toggle }) => {
   );
 };
 
-export default RejectionNotice;
+export default RejectionNote;

@@ -67,6 +67,7 @@ const Moderation = () => {
               {entries.map(({ id, name, __type, date, doi, url }) => (
                 <Entry
                   key={id}
+                  id={id}
                   title={name}
                   type={RecordType[__type]}
                   date={date}
