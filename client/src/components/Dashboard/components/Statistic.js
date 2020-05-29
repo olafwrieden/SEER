@@ -7,7 +7,11 @@ const Statistic = ({ value, text, bgcolor, change }) => (
     <div className="tile is-parent">
       <article className={`tile is-child box ${bgcolor}`}>
         <p className="has-text-white">
-          <CountUp className="title has-text-white" end={value} />
+          {isNaN(value) ? (
+            <span className="title has-text-white">--</span>
+          ) : (
+            <CountUp className="title has-text-white" end={value} />
+          )}
 
           {/* Show stats change, if available */}
           {!!change && !isNaN(change) && (
