@@ -15,9 +15,9 @@ router.post('/login', login);
 router.post('/register', createUser);
 
 /* Get profile */
-router.get('/profile', isAuthed, getProfile);
+router.get('/profile', isAuthed(), getProfile);
 
 /* Log out */
-router.get('/logout', isAuthed, logout);
+router.get('/logout', isAuthed(), logout);
 
 module.exports = router;

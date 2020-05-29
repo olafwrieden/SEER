@@ -21,6 +21,20 @@ exports.getEvidenceById = async (req, res) => {
   }
 };
 
+exports.createEvidenceReview = async (req, res) => {
+  try {
+    const id = await isIDValid(req.params.id);
+    const author = req.user.id || null;
+    console.log(author);
+    if (!author) {
+      return handleError(res, 'You must be logged in to leave a review.');
+    }
+    res.send(await db.createEvidenceReview(id, author, req));
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
 exports.getEvidenceStats = async () => {
   try {
     const stats = await Evidence.aggregate([
