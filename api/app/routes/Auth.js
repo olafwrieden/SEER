@@ -6,6 +6,7 @@ const {
   createUser
 } = require('../controllers/User');
 const router = express.Router();
+const { isAuthed } = require('../middleware/utils');
 
 /* Post login credentials */
 router.post('/login', login);
@@ -14,9 +15,9 @@ router.post('/login', login);
 router.post('/register', createUser);
 
 /* Get profile */
-router.get('/profile', getProfile);
+router.get('/profile', isAuthed, getProfile);
 
 /* Log out */
-router.get('/logout', logout);
+router.get('/logout', isAuthed, logout);
 
 module.exports = router;
