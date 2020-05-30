@@ -1,6 +1,15 @@
 const Evidence = require('../models/Evidence');
 const db = require('../middleware/db');
-const { handleError, isIDValid } = require('../middleware/utils');
+const {
+  handleError,
+  isIDValid,
+  buildErrorObject
+} = require('../middleware/utils');
+
+const ModerationOptions = {
+  ACCEPT: 'accept',
+  REJECT: 'reject'
+};
 
 exports.getEvidence = async (req, res) => {
   try {
@@ -29,6 +38,46 @@ exports.createEvidenceReview = async (req, res) => {
       return handleError(res, 'You must be logged in to leave a review.');
     }
     res.send(await db.createEvidenceReview(id, author, req));
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+exports.moderateSubmission = async (req, res) => {
+  try {
+    // Get Evidence ID
+    const id = await isIDValid(req.params.id);
+    const action = req.query.action || null;
+
+    // Is action query param supplied?
+    if (!action || !Object.values(ModerationOptions).includes(action)) {
+      return res
+        .status(422)
+        .send(buildErrorObject(422, 'Invalid moderation action.'));
+    }
+
+    // Is evidence able to be moderated?
+    const entry = await db.getEntry(id, Evidence);
+    if (entry.status.state !== 'PENDING_APPROVAL') {
+      return res
+        .status(500)
+        .send(buildErrorObject(500, 'This record cannot be edited.'));
+    }
+
+    // Moderate evidence
+    let newStatus = '';
+    if (action === ModerationOptions.ACCEPT) {
+      newStatus = 'PENDING_ANALYSIS'; // Next status in pipe
+    } else {
+      newStatus = 'REJECTED'; // Rejected status
+    }
+
+    // Update evidence
+    return res.send(
+      await db.updateEntry(id, Evidence, {
+        $set: { 'status.state': newStatus }
+      })
+    );
   } catch (error) {
     handleError(res, error);
   }

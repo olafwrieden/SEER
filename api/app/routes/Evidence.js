@@ -3,9 +3,10 @@ const router = express.Router();
 const {
   getEvidence,
   getEvidenceById,
-  createEvidenceReview
+  createEvidenceReview,
+  moderateSubmission
 } = require('../controllers/Evidence');
-const { isAuthed } = require('../middleware/utils');
+const { isAuthed, Roles } = require('../middleware/utils');
 
 /* Get all evidence */
 router.get('/', getEvidence);
@@ -15,5 +16,12 @@ router.get('/:id', getEvidenceById);
 
 /* Create evidence review */
 router.post('/:id/reviews', isAuthed(), createEvidenceReview);
+
+/* Moderate Submission */
+router.get(
+  '/:id/moderate',
+  isAuthed([Roles.MODERATOR, Roles.ADMIN]),
+  moderateSubmission
+);
 
 module.exports = router;
