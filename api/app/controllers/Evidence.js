@@ -84,8 +84,8 @@ exports.moderateSubmission = async (req, res) => {
     const entry = await db.getEntry(id, Evidence);
     if (entry.status.state !== 'PENDING_APPROVAL') {
       return res
-        .status(500)
-        .send(buildErrorObject(500, 'This record cannot be edited.'));
+        .status(422)
+        .send(buildErrorObject(422, 'This record cannot be edited.'));
     }
 
     // Moderate evidence
