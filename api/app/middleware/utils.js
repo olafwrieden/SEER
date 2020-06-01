@@ -7,9 +7,9 @@ exports.handleError = (res, error) => {
     console.info(error);
   }
   // Send error
-  res.status(error.code).json({
+  res.status(error.code || 500).json({
     error: {
-      message: error.message
+      message: error.message || 'Internal Server Error'
     }
   });
 };

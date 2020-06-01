@@ -18,7 +18,7 @@ router.get('/:id', getEvidenceById);
 router.post('/:id/reviews', isAuthed(), createEvidenceReview);
 
 /* Moderate Submission */
-router.get(
+router.post(
   '/:id/moderate',
   isAuthed([Roles.MODERATOR, Roles.ADMIN]),
   moderateSubmission

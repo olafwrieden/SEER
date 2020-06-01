@@ -11,6 +11,13 @@ const ModerationOptions = {
   REJECT: 'reject'
 };
 
+const RejectionReasons = {
+  UNRELATED: 'unrelated',
+  POOR_QUALITY: 'poor_quality',
+  DUPLICATE: 'duplicate',
+  OTHER: 'other'
+};
+
 exports.getEvidence = async (req, res) => {
   try {
     const query = await db.checkQueryString(req.query);
@@ -45,15 +52,32 @@ exports.createEvidenceReview = async (req, res) => {
 
 exports.moderateSubmission = async (req, res) => {
   try {
-    // Get Evidence ID
     const id = await isIDValid(req.params.id);
     const action = req.query.action || null;
+    const { reason, comment } = req.body;
 
     // Is action query param supplied?
     if (!action || !Object.values(ModerationOptions).includes(action)) {
       return res
         .status(422)
         .send(buildErrorObject(422, 'Invalid moderation action.'));
+    }
+
+    // If rejecting, was a reason supplied?
+    if (
+      action === ModerationOptions.REJECT &&
+      !Object.values(RejectionReasons).includes(reason)
+    ) {
+      return res
+        .status(422)
+        .send(buildErrorObject(422, 'No rejection reason supplied.'));
+    } else if (reason === RejectionReasons.OTHER) {
+      // If reason is 'other', is comment supplied?
+      if (!comment) {
+        return res
+          .status(422)
+          .send(buildErrorObject(422, 'No comment was supplied.'));
+      }
     }
 
     // Is evidence able to be moderated?
@@ -65,19 +89,26 @@ exports.moderateSubmission = async (req, res) => {
     }
 
     // Moderate evidence
-    let newStatus = '';
     if (action === ModerationOptions.ACCEPT) {
-      newStatus = 'PENDING_ANALYSIS'; // Next status in pipe
+      return res.send(
+        await db.updateEntry(id, Evidence, {
+          $set: { 'status.state': 'PENDING_ANALYSIS' } // Next status in pipe
+        })
+      );
     } else {
-      newStatus = 'REJECTED'; // Rejected status
+      return res.send(
+        await db.updateEntry(id, Evidence, {
+          $set: {
+            'status.state': 'REJECTED', // Rejected status
+            'status.rejection_reason': Object.keys(RejectionReasons).find(
+              (k) => RejectionReasons[k] === reason
+            ),
+            // Attached comment if supplied
+            ...(comment && { 'status.rejection_comment': comment || null })
+          }
+        })
+      );
     }
-
-    // Update evidence
-    return res.send(
-      await db.updateEntry(id, Evidence, {
-        $set: { 'status.state': newStatus }
-      })
-    );
   } catch (error) {
     handleError(res, error);
   }
