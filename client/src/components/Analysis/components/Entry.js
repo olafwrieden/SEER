@@ -7,18 +7,13 @@ const Entry = ({ id, title, type, authors, date, doi, url }) => {
   const icon = type?.icon || RecordType.UNCLASSIFIED.icon;
   const [showEditor, setShowEditor] = useState(false);
   const toggleEditor = () => setShowEditor(!showEditor);
+
+  // Fields
   const [tempTitle, setTempTitle] = useState(title || "");
-  //const [resourceData, setResourceData] = useState("");
   const [author, setAuthors] = useState(authors || "");
   const [urlLink, seturlLink] = useState(url || "");
   const [publishedDate, setPublishedDate] = useState(date || "");
   const [resourceDOI, setResourceDOI] = useState(doi || "");
-  //const [searchTerms, setSearchTerms] = useState("");
-
-  const updateDetails = () => {
-    //TODO: ADD Logic
-    console.log("user wants to update evidence " + id);
-  };
 
   return (
     <>
@@ -112,6 +107,7 @@ const Entry = ({ id, title, type, authors, date, doi, url }) => {
         </div>
       </div>
       <Editor
+        id={id}
         title={tempTitle}
         setTitle={setTempTitle}
         date={publishedDate}
@@ -124,7 +120,6 @@ const Entry = ({ id, title, type, authors, date, doi, url }) => {
         authors={author}
         setAuthor={setAuthors}
         toggle={toggleEditor}
-        edit={() => updateDetails()}
       />
     </>
   );

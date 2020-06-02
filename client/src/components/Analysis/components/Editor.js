@@ -4,22 +4,21 @@ import { RiCheckLine, RiDeleteBin2Line } from "react-icons/ri";
 import { formatDate } from "../../../utils/helpers";
 
 const Editor = ({
+  id,
   title,
   setTitle,
   date,
   setDate,
   url,
-  setURL,
-  authors,
   setAuthor,
   doi,
   setDOI,
   isOpen,
   toggle,
-  edit,
 }) => {
   const handleSave = () => {
-    // console.log({title, resourceData, author, publishedDate, searchTerms});
+    // TODO: Handle Data Updating
+    // console.log({ id, title, date });
   };
 
   return (
@@ -72,7 +71,6 @@ const Editor = ({
                     id="authors"
                     name="authors"
                     type="text"
-                    //value={formatAuthor(authors)}
                     placeholder="Alex Burnardzic"
                     onChange={(e) => setAuthor(e.target.value)}
                   />
@@ -116,7 +114,7 @@ const Editor = ({
               </div>
             </div>
           </div>
-          {/* Take in the search terms by a symbol then split and store */}
+
           <div className="columns">
             <div className="column">
               <div className="field">
@@ -127,9 +125,7 @@ const Editor = ({
                     id="searchTerms"
                     name="searchTerms"
                     type="text"
-                    //value={searchTerms}
-                    placeholder="TDD + Agile "
-                    //onChange={(e) => setSearchTerms(e.target.value)}
+                    placeholder="TDD + Agile"
                   />
                 </div>
               </div>
@@ -160,8 +156,6 @@ const Editor = ({
                   <textarea
                     className="textarea"
                     placeholder="e.g. Resource Information Data"
-                    //value={resourceData}
-                    //onChange={(e) => setResourceData(e.target.value)}
                   ></textarea>
                 </div>
               </div>
@@ -171,7 +165,7 @@ const Editor = ({
 
         {/* Modal Footer */}
         <footer className="modal-card-foot has-background-white">
-          <button className="button is-success" onClick={() => edit()}>
+          <button className="button is-success" onClick={handleSave}>
             <span className="icon is-small">
               <RiCheckLine />
             </span>
