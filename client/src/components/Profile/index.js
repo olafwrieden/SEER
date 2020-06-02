@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { FiEdit, FiEye } from "react-icons/fi";
 import { useAuth } from "../App/Authentication";
+import EditAvatar from "./components/EditAvatar";
 import "./Profile.css";
 
 const Profile = () => {
   const { user } = useAuth();
   const name = `${user?.first_name} ${user?.last_name}`;
+
+  const [editAvatar, setEditAvatar] = useState(false);
+  const toggleEditAvatar = () => setEditAvatar(!editAvatar);
 
   return (
     <>
@@ -24,7 +28,10 @@ const Profile = () => {
               {/* Avatar */}
               <div className="columns is-flex is-centered">
                 <div className="column has-text-centered">
-                  <figure className="image is-128x128 is-inline-block img-edit">
+                  <figure
+                    className="image is-128x128 is-inline-block img-edit"
+                    onClick={toggleEditAvatar}
+                  >
                     <img
                       className="is-rounded avatar"
                       src={user?.avatar}
@@ -93,6 +100,15 @@ const Profile = () => {
           </div>
         </div>
       </section>
+      {user?.avatar ? (
+        <EditAvatar
+          isOpen={editAvatar}
+          toggle={toggleEditAvatar}
+          url={user?.avatar}
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 };

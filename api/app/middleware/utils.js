@@ -7,9 +7,9 @@ exports.handleError = (res, error) => {
     console.info(error);
   }
   // Send error
-  res.status(error.code).json({
+  res.status(error.code || 500).json({
     error: {
-      message: error.message
+      message: error.message || 'Internal Server Error'
     }
   });
 };
@@ -40,4 +40,33 @@ exports.isIDValid = async (id) => {
       ? resolve(id)
       : reject(this.buildErrorObject(422, 'ID_MALFORMED'));
   });
+};
+
+/* Middleware for routes requiring authentication */
+exports.isAuthed = (roles = []) => {
+  if (typeof roles === 'string') {
+    roles = [roles];
+  }
+
+  // Role-based Access Control
+  return [
+    (req, res, next) => {
+      if (
+        !req.isAuthenticated() ||
+        (roles.length && !roles.includes(req.user.role))
+      ) {
+        // User is not authoriseds
+        return res.status(401).send(this.buildErrorObject(401, 'UNAUTHORIZED'));
+      }
+      // Authentication and Authorization was successful
+      next();
+    }
+  ];
+};
+
+exports.Roles = {
+  ADMIN: 'ADMIN',
+  ANALYST: 'ANALYST',
+  MODERATOR: 'MODERATOR',
+  STANDARD: 'STANDARD'
 };

@@ -7,7 +7,7 @@ const Reasons = [
   { name: "other", button: "Other" },
 ];
 
-const RejectionNote = ({ id, isOpen, toggle }) => {
+const RejectionNote = ({ id, isOpen, toggle, refreshPage }) => {
   // Rejection State
   const [reason, setReason] = useState("");
   const [comment, setComment] = useState("");
@@ -23,6 +23,23 @@ const RejectionNote = ({ id, isOpen, toggle }) => {
     setReason("");
     setComment("");
     toggle();
+    refreshPage();
+  };
+
+  const sendRejectRequest = () => {
+    return fetch(`/api/v1/evidence/${id}/moderate?action=reject`, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ reason, comment }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (!res?.error && !res?.message) {
+          handleBackButton();
+        }
+        return res;
+      })
+      .catch((error) => error);
   };
 
   const mockRejectAPICall = () => {
@@ -78,10 +95,9 @@ const RejectionNote = ({ id, isOpen, toggle }) => {
                   <input
                     onChange={(e) => setComment(e.target.value)}
                     value={comment}
-                    className={`input ${
+                    className={`input rejectionReason ${
                       isCommentRequired && !isCommentValid ? "is-danger" : ""
-                      }`}
-                    id="rejectionReason"
+                    }`}
                     name="rejectionReason"
                     type="text"
                     placeholder="This submission was rejected because..."
@@ -98,7 +114,11 @@ const RejectionNote = ({ id, isOpen, toggle }) => {
         </section>
 
         <footer className="modal-card-foot">
-          <button disabled={isButtonDisabled} className="button is-danger" onClick={mockRejectAPICall}>
+          <button
+            disabled={isButtonDisabled}
+            className="button is-danger"
+            onClick={sendRejectRequest}
+          >
             <span className="icon is-small">
               <i className="fas fa-times" aria-hidden="true"></i>
             </span>

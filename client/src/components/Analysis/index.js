@@ -1,48 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CaughtUp from "../../utils/CaughtUp";
+import { formatDate } from "../../utils/helpers";
 import ProgressChart from "../../utils/ProgressChart";
 import { RecordType } from "../../utils/RecordType";
 import Entry from "./components/Entry";
 
-const entries = [
-  {
-    id: 1,
-    name:
-      "Emergence of plasmid-mediated colistin resistance mechanism MCR-1 in animals and human beings in China: a microbiological and molecular biological study",
-    __type: "BOOK",
-    date: "12/09/20",
-    doi: "10.1037/a0028240",
-    url: "https://www.google.com",
-  },
-  {
-    id: 2,
-    name:
-      "Understanding Market–Driving Behaviour: The Role of Entrepreneurship",
-    __type: "JOURNAL",
-    date: "28/04/20",
-    doi: "10.1037/a7728243",
-    url: "https://www.google.com",
-  },
-  {
-    id: 3,
-    name: "Impact of Ownership on the International Involvement of SMEs.",
-    __type: "JOURNAL",
-    date: "21/02/20",
-    doi: "10.1037/a0928247",
-    url: "https://www.google.com",
-  },
-  {
-    id: 4,
-    name:
-      "The Eclectic (OLI) Paradigm of International Production: Past, Present and Future.",
-    __type: "WEBSITE",
-    date: "17/02/20",
-    doi: "10.1037/a0028301",
-    url: "https://www.google.com",
-  },
-];
-
 const Analysis = () => {
+  const [entries, setEntries] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/v1/evidence?fields=status.state&filter=PENDING_ANALYSIS")
+      .then((res) => res.json())
+      .then((res) => setEntries(res.data))
+      .catch((error) => error);
+  }, []);
+
   return (
     <>
       <section className="section">
@@ -64,16 +36,19 @@ const Analysis = () => {
 
             <div className="column">
               {/* Display new entries for analysis */}
-              {entries.map(({ id, name, __type, date, doi, url }) => (
-                <Entry
-                  key={id}
-                  title={name}
-                  type={RecordType[__type]}
-                  date={date}
-                  doi={doi}
-                  url={url}
-                />
-              ))}
+              {entries.map(
+                ({ id, title, __type, year, month, day, doi, url }) => (
+                  <Entry
+                    key={id}
+                    id={id}
+                    title={title}
+                    type={RecordType[__type]}
+                    date={formatDate(day, month, year)}
+                    doi={doi}
+                    url={url}
+                  />
+                )
+              )}
 
               {/* Display "Caught Up" if analysis queue is empty */}
               {!entries.length && (
