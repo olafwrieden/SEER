@@ -26,9 +26,25 @@ const RejectionNote = ({ id, isOpen, toggle }) => {
   };
 
   const mockRejectAPIcall = () => {
-    console.log("rejecting " + id + " because " + reason);
-    handleBackButton();
-  }
+    /*Moderation Endpoint: `/api/v1/evidence/:id/moderate?action=[reject/accept]`
+    If accepting, request body can be empty. If rejecting, you must supply:
+    `{ reason: ['unrelated', 'poor_quality', 'duplicate', 'other'], 
+    comment: "some optional comment - unless reason is 'other'"}`*/
+    return fetch(`/api/v1/evidence/${id}/moderate?action=reject`, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ reason, comment }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (!res?.error && !res?.message) {
+          console.log("success");
+          handleBackButton();
+        }
+        return res;
+      })
+      .catch((error) => error);
+  };
 
   return (
     <div className={`modal ${isOpen ? "is-active" : ""}`}>
