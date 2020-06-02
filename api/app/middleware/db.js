@@ -4,6 +4,7 @@ const {
   entryNotFound
 } = require('./utils');
 const User = require('../models/User');
+const Evidence = require('../models/Evidence');
 
 /* Build sort order for the query */
 const buildSort = (sort, order) => {
@@ -104,6 +105,32 @@ exports.getUserByEmail = async (email) => {
       entryNotFound(error, entry, reject, 'NOT_FOUND');
       resolve(entry);
     });
+  });
+};
+
+/* Appends a new review to an evidence entry */
+exports.createEvidenceReview = async (evidenceId, author, req) => {
+  return new Promise((resolve, reject) => {
+    // Extract rating details
+    const stars = parseInt(req.body.stars) || null;
+    const comment = req.body.comment || null;
+
+    // Ensure star rating is between 1-5 (inclusive)
+    if (stars < 1 || stars > 5) {
+      resolve(buildSuccessObject('INVALID_RATING'));
+    }
+
+    // Add rating to evidence
+    Evidence.updateOne(
+      { _id: evidenceId },
+      { $push: { ratings: { stars, comment, author } } },
+      (error) => {
+        if (error) {
+          reject(buildErrorObject(422, error.message));
+        }
+        resolve(buildSuccessObject('REVIEW_ADDED'));
+      }
+    );
   });
 };
 

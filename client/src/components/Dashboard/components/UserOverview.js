@@ -6,7 +6,7 @@ const Counter = ({ title, count }) => (
   <div className="column">
     <p className="has-text-grey">{title}</p>
     <p className="subtitle">
-      <b>{count}</b>
+      <b>{isNaN(count) ? "--" : count}</b>
     </p>
   </div>
 );
