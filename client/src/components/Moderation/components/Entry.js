@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { FiCheck, FiTrash2 } from "react-icons/fi";
 import { RecordType } from "../../../utils/RecordType";
+import RejectionNote from "./RejectionNote";
 
-const Entry = ({ title, type, date, doi, url }) => {
+const Entry = ({ id, title, type, date, doi, url }) => {
   const icon = type?.icon || RecordType.UNCLASSIFIED.icon;
+  const [showRejectionModal, setShowRejectionModal] = useState(false);
+  const toggleRejectionModal = () => setShowRejectionModal(!showRejectionModal);
 
   return (
+    <>
     <div className="box">
       <div className="columns">
         {/* Icon */}
@@ -72,7 +76,8 @@ const Entry = ({ title, type, date, doi, url }) => {
                 </span>
                 <span>Accept</span>
               </button>
-              <button className="column button is-danger is-light is-fullwidth is-4-desktop">
+              <button className="column button is-danger is-light is-fullwidth is-4-desktop"
+                onClick={toggleRejectionModal}>
                 <span className="icon">
                   <FiTrash2 />
                 </span>
@@ -83,6 +88,8 @@ const Entry = ({ title, type, date, doi, url }) => {
         </div>
       </div>
     </div>
+    <RejectionNote id={id} isOpen={showRejectionModal} toggle={toggleRejectionModal} />
+    </>
   );
 };
 
