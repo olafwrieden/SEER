@@ -23,9 +23,6 @@ const Entry = ({ id, title, type, date, doi, url, refreshPage }) => {
       .catch((error) => error);
   };
 
-  const [showRejectionModal, setshowRejectionModal] = useState(false);
-  const toggleRejectionModal = () => setshowRejectionModal(!showRejectionModal);
-
   return (
     <>
       <div className="box">
