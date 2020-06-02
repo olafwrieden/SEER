@@ -64,13 +64,15 @@ const Result = ({
                   <AiFillStar key={i} />
                 ))}
               </span>
-              
+
               {isAuthed && (
                 <span className="column is-12">
-                  <button className="button is-small is-outlined is-dark" 
-                  onClick={() => toggleRatingSubmission(id)}>
+                  <button
+                    className="button is-small is-outlined is-dark"
+                    onClick={() => toggleRatingSubmission(id)}
+                  >
                     Add Review
-                </button>
+                  </button>
                 </span>
               )}
             </div>
@@ -95,10 +97,10 @@ const Result = ({
                 </span>
               ))}
             </div>
-          </div>  
+          </div>
         </div>
       </div>
-      <Rating isOpen={showRating} toggle={toggleRatingSubmission} id = {id} />
+      <Rating id={id} isOpen={showRating} toggle={toggleRatingSubmission} />
     </>
   );
 };

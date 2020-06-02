@@ -1,31 +1,28 @@
 import React, { useState } from "react";
-import { FaStar } from "react-icons/fa";
-import Rating from "./Rating";
+import { AiFillStar } from "react-icons/ai";
 
-const StarRating = ({starRating, setStarRating}) => {
-  // const [rating, setRating] = useState(null);
+const StarRating = ({ stars, setStars }) => {
   const [hover, setHover] = useState(null);
-  return (
-  
-  <div>
-    {[...Array(5)].map((_, i) => {
-      const ratingValue = i + 1;
 
-      return (
-          <FaStar
+  return (
+    <div>
+      {[...Array(5)].map((_, i) => {
+        const ratingValue = i + 1;
+
+        return (
+          <AiFillStar
             key={i}
-            className="star"
-            color={ratingValue <= (hover || starRating) ? "#ffc107" : "#e4e5e9"}
+            style={{ cursor: "pointer" }}
+            color={ratingValue <= (hover || stars) ? "#ffc107" : "#e4e5e9"}
             size={30}
             onMouseEnter={() => setHover(ratingValue)}
             onMouseLeave={() => setHover(null)}
-            onClick={() => setStarRating(ratingValue)}
+            onClick={() => setStars(ratingValue)}
           />
-      );
-    })}
-  </div> 
+        );
+      })}
+    </div>
   );
-
 };
 
 export default StarRating;

@@ -1,34 +1,35 @@
 import React, { useState } from "react";
+import { FaPaperPlane, FaUndoAlt } from "react-icons/fa";
 import StarRating from "./StarRating";
-import "./StarRating.css";
 
-const Rating = ({ isOpen, toggle, id }) => {
-  const [starRating, setStarRating] = useState(0);
+const Rating = ({ id, isOpen, toggle }) => {
+  const [stars, setStars] = useState(0);
   const [comment, setComment] = useState("");
-
+  const isValidReview = stars >= 1 && stars <= 5 && comment.trim().length > 20;
 
   // Reset on Back Button Click
   const handleBackButton = () => {
-    setStarRating(0);
+    setStars(0);
     setComment("");
     toggle();
   };
 
-  const handlePostButton = () => {
-    return fetch(`/api/v1/evidence/${id}/reviews`, {
-      method : "POST",
-      headers: { "Content-type": "application/json"},
-      body: JSON.stringify({ stars: starRating, comment }),
+  // Post Review
+  const handlePostButton = async () => {
+    return await fetch(`/api/v1/evidence/${id}/reviews`, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ stars, comment }),
     })
-    .then((res) => res.json())
-    .then((res) => {
-      if (!res?.error && !res?.comment) {
-        handleBackButton()      
-      }
-      return res;
-    })
-    .catch((error) => error);
-  }
+      .then((res) => res.json())
+      .then((res) => {
+        if (!res.error) {
+          handleBackButton();
+        }
+        return res;
+      })
+      .catch((error) => error);
+  };
 
   return (
     <div className={`modal ${isOpen ? "is-active" : ""}`}>
@@ -44,16 +45,12 @@ const Rating = ({ isOpen, toggle, id }) => {
         </header>
 
         <section className="modal-card-body">
-
-          {/* StarRating */}
+          {/* Star Rating */}
           <div className="columns">
             <div className="column">
               <div className="field">
-                <label className="label">Rating</label>
-                
-                {/* Adds Stars component */}
-                <StarRating starRating = {starRating} setStarRating={setStarRating} />
-
+                <label className="label">My Rating</label>
+                <StarRating stars={stars} setStars={setStars} />
               </div>
             </div>
           </div>
@@ -62,9 +59,7 @@ const Rating = ({ isOpen, toggle, id }) => {
           <div className="columns">
             <div className="column">
               <div className="field">
-                <label className="label">
-                  Review
-                </label>
+                <label className="label">Review</label>
                 <div className="control">
                   <input
                     onChange={(e) => setComment(e.target.value)}
@@ -83,20 +78,23 @@ const Rating = ({ isOpen, toggle, id }) => {
 
         {/* Post Button */}
         <footer className="modal-card-foot">
-          <button className="button is-success" onClick = {handlePostButton}>
+          <button
+            className="button is-success"
+            disabled={!isValidReview}
+            onClick={handlePostButton}
+          >
             <span className="icon is-small">
-              <i className="fas fa-check"             
-              aria-hidden="true"></i>
+              <FaPaperPlane />
             </span>
-            <span>Post</span>
+            <span>Submit</span>
           </button>
 
           {/* Back button */}
           <button className="button" onClick={handleBackButton}>
             <span className="icon is-small">
-              <i className="fas fa-undo"></i>
+              <FaUndoAlt />
             </span>
-            <span>Back</span>
+            <span>Cancel</span>
           </button>
         </footer>
       </div>

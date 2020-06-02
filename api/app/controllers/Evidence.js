@@ -41,7 +41,6 @@ exports.createEvidenceReview = async (req, res) => {
   try {
     const id = await isIDValid(req.params.id);
     const author = req.user.id || null;
-    console.log("creating review");
     if (!author) {
       return handleError(res, 'You must be logged in to leave a review.');
     }
