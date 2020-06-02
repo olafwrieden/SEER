@@ -42,7 +42,8 @@ const Result = ({
                 <div className="tags">
                   {authors.map((author, i) => (
                     <span key={i} className="tag">
-                      {author.first_name} {author.middle_name} {author.last_name}
+                      {author.first_name} {author.middle_name}{" "}
+                      {author.last_name}
                     </span>
                   ))}
                 </div>
@@ -100,7 +101,9 @@ const Result = ({
           </div>
         </div>
       </div>
-      <Rating id={id} isOpen={showRating} toggle={toggleRatingSubmission} />
+      {isAuthed && (
+        <Rating id={id} isOpen={showRating} toggle={toggleRatingSubmission} />
+      )}
     </>
   );
 };
