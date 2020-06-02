@@ -68,7 +68,7 @@ const RejectionNote = ({ id, isOpen, toggle, refreshPage }) => {
                       key={r.name}
                       className={`button ${
                         reason === r.name ? "is-primary" : ""
-                        }`}
+                      }`}
                       onClick={() => setReason(r.name)}
                     >
                       {r.button}
@@ -92,7 +92,7 @@ const RejectionNote = ({ id, isOpen, toggle, refreshPage }) => {
                     value={comment}
                     className={`input rejectionReason ${
                       isCommentRequired && !isCommentValid ? "is-danger" : ""
-                      }`}
+                    }`}
                     name="rejectionReason"
                     type="text"
                     placeholder="This submission was rejected because..."
@@ -109,7 +109,11 @@ const RejectionNote = ({ id, isOpen, toggle, refreshPage }) => {
         </section>
 
         <footer className="modal-card-foot">
-          <button disabled={isButtonDisabled} className="button is-danger" onClick={sendRejectRequest}>
+          <button
+            disabled={isButtonDisabled}
+            className="button is-danger"
+            onClick={sendRejectRequest}
+          >
             <span className="icon is-small">
               <i className="fas fa-times" aria-hidden="true"></i>
             </span>

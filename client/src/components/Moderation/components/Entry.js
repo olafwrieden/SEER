@@ -31,11 +31,14 @@ const Entry = ({ id, title, type, date, doi, url, refreshPage }) => {
           <div className="column is-2">
             <div className="columns is-multiline">
               <div className="column is-12-desktop">
-                <i className={`${icon} has-text-primary`} aria-hidden="true"></i>
+                <i
+                  className={`${icon} has-text-primary`}
+                  aria-hidden="true"
+                ></i>
               </div>
               <div className="column is-12-desktop">
                 <div>{type.name}</div>
-                <span className="tag is-light">{date}</span>
+                {date && <span className="tag is-light">{date}</span>}
               </div>
             </div>
           </div>
@@ -52,29 +55,33 @@ const Entry = ({ id, title, type, date, doi, url, refreshPage }) => {
               style={{ marginTop: "10px" }}
             >
               {/* DOI */}
-              <div className="control">
-                <div className="tags has-addons">
-                  <span className="tag is-primary">DOI</span>
-                  <span className="tag is-light">{doi}</span>
+              {doi && (
+                <div className="control">
+                  <div className="tags has-addons">
+                    <span className="tag is-primary">DOI</span>
+                    <span className="tag is-light">{doi}</span>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* URL */}
-              <div className="control">
-                <div className="tags has-addons">
-                  <span className="tag is-primary">URL</span>
-                  <span className="tag is-light">
-                    <a
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ textDecoration: "none" }}
-                    >
-                      View Page
-                  </a>
-                  </span>
+              {url && (
+                <div className="control">
+                  <div className="tags has-addons">
+                    <span className="tag is-primary">URL</span>
+                    <span className="tag is-light">
+                      <a
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: "none" }}
+                      >
+                        View Page
+                      </a>
+                    </span>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
@@ -85,14 +92,19 @@ const Entry = ({ id, title, type, date, doi, url, refreshPage }) => {
                 className="columns is-mobile is-multiline is-gapless is-pulled-right"
                 style={{ width: "100%" }}
               >
-                <button className="column button is-success is-light is-fullwidth is-8-desktop" onClick={sendAcceptRequest}>
+                <button
+                  className="column button is-success is-light is-fullwidth is-8-desktop"
+                  onClick={sendAcceptRequest}
+                >
                   <span className="icon">
                     <FiCheck />
                   </span>
                   <span>Accept</span>
                 </button>
-                <button className="column button is-danger is-light is-fullwidth is-4-desktop"
-                  onClick={toggleRejectionModal}>
+                <button
+                  className="column button is-danger is-light is-fullwidth is-4-desktop"
+                  onClick={toggleRejectionModal}
+                >
                   <span className="icon">
                     <FiTrash2 />
                   </span>
@@ -103,7 +115,12 @@ const Entry = ({ id, title, type, date, doi, url, refreshPage }) => {
           </div>
         </div>
       </div>
-      <RejectionNote id={id} isOpen={showRejectionModal} toggle={toggleRejectionModal} refreshPage={refreshPage} />
+      <RejectionNote
+        id={id}
+        isOpen={showRejectionModal}
+        toggle={toggleRejectionModal}
+        refreshPage={refreshPage}
+      />
     </>
   );
 };

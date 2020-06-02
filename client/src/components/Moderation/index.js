@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import CaughtUp from "../../utils/CaughtUp";
+import { formatDate } from "../../utils/helpers";
 import ProgressChart from "../../utils/ProgressChart";
 import { RecordType } from "../../utils/RecordType";
 import Entry from "./components/Entry";
@@ -30,14 +31,14 @@ const Moderation = () => {
       setLoading(false);
     }
   }, []);
-  
+
   useEffect(() => {
     fetchData({ pageIndex, pageSize });
   }, [fetchData, pageIndex, pageSize]);
 
   const refreshPage = () => {
     fetchData({ pageIndex, pageSize });
-  }
+  };
 
   return (
     <>
@@ -60,13 +61,13 @@ const Moderation = () => {
 
             <div className="column">
               {/* Display new entries for moderation */}
-              {data.map(({ id, name, __type, date, doi, url }) => (
+              {data.map(({ id, title, __type, day, month, year, doi, url }) => (
                 <Entry
                   key={id}
                   id={id}
-                  title={name}
+                  title={title}
                   type={RecordType[__type]}
-                  date={date}
+                  date={formatDate(day, month, year)}
                   doi={doi}
                   url={url}
                   refreshPage={refreshPage}
