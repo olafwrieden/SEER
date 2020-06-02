@@ -19,7 +19,12 @@ const StatusSchema = new Schema(
     },
     rejection_reason: {
       type: String,
-      minlength: 20
+      enum: ['UNRELATED', 'POOR_QUALITY', 'DUPLICATE', 'OTHER']
+    },
+    rejection_comment: {
+      type: String,
+      minlength: 20,
+      required: this.rejection_reason === 'OTHER'
     }
   },
   { _id: false }
