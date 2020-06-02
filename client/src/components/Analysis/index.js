@@ -1,20 +1,19 @@
-import React, {useState, useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import CaughtUp from "../../utils/CaughtUp";
+import { formatDate } from "../../utils/helpers";
 import ProgressChart from "../../utils/ProgressChart";
 import { RecordType } from "../../utils/RecordType";
 import Entry from "./components/Entry";
-import { formatDate } from "../../utils/helpers";
 
 const Analysis = () => {
+  const [entries, setEntries] = useState([]);
 
-const [entries, setEntries] = useState([]);
-
-useEffect(() => {
-  fetch("/api/v1/evidence?fields=status.state&filter=PENDING_ANALYSIS")
-  .then(res => res.json())
-  .then(res => setEntries(res.data))
-  .catch((error) => error);
-}, [])
+  useEffect(() => {
+    fetch("/api/v1/evidence?fields=status.state&filter=PENDING_ANALYSIS")
+      .then((res) => res.json())
+      .then((res) => setEntries(res.data))
+      .catch((error) => error);
+  }, []);
 
   return (
     <>
@@ -37,17 +36,19 @@ useEffect(() => {
 
             <div className="column">
               {/* Display new entries for analysis */}
-              {entries.map(({ id, title, __type, year, month, day, doi, url }) => (
-                <Entry
-                  key={id}
-                  id={id}
-                  title={title}
-                  type={RecordType[__type]}
-                  date={formatDate(day,month,year)}
-                  doi={doi}
-                  url={url}
-                />
-              ))}
+              {entries.map(
+                ({ id, title, __type, year, month, day, doi, url }) => (
+                  <Entry
+                    key={id}
+                    id={id}
+                    title={title}
+                    type={RecordType[__type]}
+                    date={formatDate(day, month, year)}
+                    doi={doi}
+                    url={url}
+                  />
+                )
+              )}
 
               {/* Display "Caught Up" if analysis queue is empty */}
               {!entries.length && (

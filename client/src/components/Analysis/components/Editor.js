@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import { FiBookOpen } from "react-icons/fi";
 import { RiCheckLine, RiDeleteBin2Line } from "react-icons/ri";
 import { formatDate } from "../../../utils/helpers";
 
-const Editor = ({ title, setTitle, date, setDate, url, setURL,authors, setAuthor,doi, setDOI, isOpen, toggle, edit }) => {
+const Editor = ({
+  title,
+  setTitle,
+  date,
+  setDate,
+  url,
+  setURL,
+  authors,
+  setAuthor,
+  doi,
+  setDOI,
+  isOpen,
+  toggle,
+  edit,
+}) => {
   const handleSave = () => {
     // console.log({title, resourceData, author, publishedDate, searchTerms});
-    
-  }
+  };
 
   return (
     <div className={`modal ${isOpen ? "is-active" : "ƒ"}`}>
@@ -19,7 +32,8 @@ const Editor = ({ title, setTitle, date, setDate, url, setURL,authors, setAuthor
             className="modal-card-title"
             style={{ display: "flex", alignItems: "center" }}
           >
-            <FiBookOpen /> <span style={{ paddingLeft: "10px" }}>Resource Editor</span>
+            <FiBookOpen />{" "}
+            <span style={{ paddingLeft: "10px" }}>Resource Editor</span>
           </p>
           <button
             className="delete"
@@ -40,7 +54,7 @@ const Editor = ({ title, setTitle, date, setDate, url, setURL,authors, setAuthor
                     id="resourceTitle"
                     name="resourceTitle"
                     type="text"
-                    value = {title}
+                    value={title}
                     placeholder="Test Driven Development"
                     onChange={(e) => setTitle(e.target.value)}
                   />
@@ -103,7 +117,7 @@ const Editor = ({ title, setTitle, date, setDate, url, setURL,authors, setAuthor
             </div>
           </div>
           {/* Take in the search terms by a symbol then split and store */}
-          <div className="columns"> 
+          <div className="columns">
             <div className="column">
               <div className="field">
                 <label className="label">Search Terms</label>
@@ -121,18 +135,18 @@ const Editor = ({ title, setTitle, date, setDate, url, setURL,authors, setAuthor
               </div>
             </div>
           </div>
-          <div className="columns"> 
+          <div className="columns">
             <div className="column">
               <div className="field">
                 <label className="label">Resource Link</label>
                 <div className="control">
-                <a
+                  <a
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ textDecoration: "none" }}
                   >
-                  {url}
+                    {url}
                   </a>
                 </div>
               </div>
@@ -140,18 +154,17 @@ const Editor = ({ title, setTitle, date, setDate, url, setURL,authors, setAuthor
           </div>
           <div className="columns">
             <div className="column">
-            <div className="column">
               <div className="field">
                 <label className="label">Resource Extract</label>
                 <div className="control">
-                <textarea class="textarea" placeholder="e.g. Resource Information Data" 
-                //value={resourceData}
-                //onChange={(e) => setResourceData(e.target.value)}
-                > 
-                </textarea>
+                  <textarea
+                    className="textarea"
+                    placeholder="e.g. Resource Information Data"
+                    //value={resourceData}
+                    //onChange={(e) => setResourceData(e.target.value)}
+                  ></textarea>
                 </div>
               </div>
-            </div>
             </div>
           </div>
         </section>
