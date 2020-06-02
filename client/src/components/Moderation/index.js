@@ -10,7 +10,6 @@ const Moderation = () => {
   const [pageCount, setPageCount] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
   const fetchIdRef = useRef(0);
-  const [refresh, setRefresh] = useState(false);
 
   const pageIndex = 0;
   const pageSize = 10;
@@ -37,8 +36,7 @@ const Moderation = () => {
   }, [fetchData, pageIndex, pageSize]);
 
   const refreshPage = () => {
-    setRefresh(true);
-    //useEffect();
+    fetchData({ pageIndex, pageSize });
   }
 
   return (
