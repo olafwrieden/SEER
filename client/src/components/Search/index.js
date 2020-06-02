@@ -56,6 +56,7 @@ const Search = ({ terms, dateFrom, dateTo }) => {
             return (
               <Result
                 key={result.id}
+                id = {result.id}
                 title={result.title}
                 type={RecordType[result.__type]}
                 date={date}

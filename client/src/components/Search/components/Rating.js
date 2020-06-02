@@ -2,15 +2,10 @@ import React, { useState } from "react";
 import StarRating from "./StarRating";
 import "./StarRating.css";
 
-const Rating = ({ isOpen, toggle }) => {
+const Rating = ({ isOpen, toggle, id }) => {
   const [starRating, setStarRating] = useState(0);
   const [comment, setComment] = useState("");
 
-  // Validation Rules
-  // const isCommentValid = comment.trim().length >= 20;
-  // const isCommentRequired = reason === "other";
-  // const isButtonDisabled =
-  //   reason === "" || (isCommentRequired && !isCommentValid);
 
   // Reset on Back Button Click
   const handleBackButton = () => {
@@ -18,6 +13,22 @@ const Rating = ({ isOpen, toggle }) => {
     setComment("");
     toggle();
   };
+
+  const handlePostButton = () => {
+    return fetch(`/api/v1/evidence/${id}/reviews`, {
+      method : "POST",
+      headers: { "Content-type": "application/json"},
+      body: JSON.stringify({ stars: starRating, comment }),
+    })
+    .then((res) => res.json())
+    .then((res) => {
+      if (!res?.error && !res?.comment) {
+        handleBackButton()      
+      }
+      return res;
+    })
+    .catch((error) => error);
+  }
 
   return (
     <div className={`modal ${isOpen ? "is-active" : ""}`}>
@@ -33,29 +44,16 @@ const Rating = ({ isOpen, toggle }) => {
         </header>
 
         <section className="modal-card-body">
-          {/* Rejection Reason Selector*/}
+
+          {/* StarRating */}
           <div className="columns">
             <div className="column">
               <div className="field">
                 <label className="label">Rating</label>
                 
-                {/* Add Stars component */}
-                <StarRating/>
+                {/* Adds Stars component */}
+                <StarRating starRating = {starRating} setStarRating={setStarRating} />
 
-                {/* <div className="buttons has-addons"> */}
-                  {/* Show Rejection Reasons */}
-                  {/* {Reasons.map((r) => (
-                    <span
-                      key={r.name}
-                      className={`button ${
-                        reason === r.name ? "is-primary" : ""
-                      }`}
-                      onClick={() => setReason(r.name)}
-                    >
-                      {r.button}
-                    </span>
-                  ))} */}
-                {/* </div> */}
               </div>
             </div>
           </div>
@@ -83,15 +81,17 @@ const Rating = ({ isOpen, toggle }) => {
           </div>
         </section>
 
+        {/* Post Button */}
         <footer className="modal-card-foot">
-          <button className="button is-success">
+          <button className="button is-success" onClick = {handlePostButton}>
             <span className="icon is-small">
-              <i className="fas fa-check" 
-              //onClick = {handlePostButton}
+              <i className="fas fa-check"             
               aria-hidden="true"></i>
             </span>
             <span>Post</span>
           </button>
+
+          {/* Back button */}
           <button className="button" onClick={handleBackButton}>
             <span className="icon is-small">
               <i className="fas fa-undo"></i>

@@ -6,6 +6,7 @@ import Rating from "./Rating";
 import "./SearchBar.css";
 
 const Result = ({
+  id,
   title,
   type,
   date,
@@ -66,7 +67,8 @@ const Result = ({
               
               {isAuthed && (
                 <span className="column is-12">
-                  <button className="button is-small is-outlined is-dark" onClick={() => toggleRatingSubmission()}>
+                  <button className="button is-small is-outlined is-dark" 
+                  onClick={() => toggleRatingSubmission(id)}>
                     Add Review
                 </button>
                 </span>
@@ -96,7 +98,7 @@ const Result = ({
           </div>  
         </div>
       </div>
-      <Rating isOpen={showRating} toggle={toggleRatingSubmission} />
+      <Rating isOpen={showRating} toggle={toggleRatingSubmission} id = {id} />
     </>
   );
 };
