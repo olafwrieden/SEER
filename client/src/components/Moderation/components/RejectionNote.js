@@ -7,7 +7,7 @@ const Reasons = [
   { name: "other", button: "Other" },
 ];
 
-const RejectionNote = ({ id, isOpen, toggle }) => {
+const RejectionNote = ({ id, isOpen, toggle, refreshPage }) => {
   // Rejection State
   const [reason, setReason] = useState("");
   const [comment, setComment] = useState("");
@@ -23,13 +23,10 @@ const RejectionNote = ({ id, isOpen, toggle }) => {
     setReason("");
     setComment("");
     toggle();
+    refreshPage();
   };
 
-  const mockRejectAPIcall = () => {
-    /*Moderation Endpoint: `/api/v1/evidence/:id/moderate?action=[reject/accept]`
-    If accepting, request body can be empty. If rejecting, you must supply:
-    `{ reason: ['unrelated', 'poor_quality', 'duplicate', 'other'], 
-    comment: "some optional comment - unless reason is 'other'"}`*/
+  const sendRejectRequest = () => {
     return fetch(`/api/v1/evidence/${id}/moderate?action=reject`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -38,7 +35,6 @@ const RejectionNote = ({ id, isOpen, toggle }) => {
       .then((res) => res.json())
       .then((res) => {
         if (!res?.error && !res?.message) {
-          console.log("success");
           handleBackButton();
         }
         return res;
@@ -113,7 +109,7 @@ const RejectionNote = ({ id, isOpen, toggle }) => {
         </section>
 
         <footer className="modal-card-foot">
-          <button disabled={isButtonDisabled} className="button is-danger" onClick={mockRejectAPIcall}>
+          <button disabled={isButtonDisabled} className="button is-danger" onClick={sendRejectRequest}>
             <span className="icon is-small">
               <i className="fas fa-times" aria-hidden="true"></i>
             </span>

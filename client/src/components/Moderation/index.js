@@ -10,6 +10,10 @@ const Moderation = () => {
   const [pageCount, setPageCount] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
   const fetchIdRef = useRef(0);
+  const [refresh, setRefresh] = useState(false);
+
+  const pageIndex = 0;
+  const pageSize = 10;
 
   const fetchData = useCallback(async ({ pageSize, pageIndex }) => {
     const fetchId = ++fetchIdRef.current;
@@ -27,12 +31,16 @@ const Moderation = () => {
       setLoading(false);
     }
   }, []);
-
-  const pageIndex = 0;
-  const pageSize = 10;
+  
   useEffect(() => {
     fetchData({ pageIndex, pageSize });
   }, [fetchData, pageIndex, pageSize]);
+
+  const refreshPage = () => {
+    setRefresh(true);
+    //useEffect();
+  }
+
   return (
     <>
       <section className="section">
@@ -63,6 +71,7 @@ const Moderation = () => {
                   date={date}
                   doi={doi}
                   url={url}
+                  refreshPage={refreshPage}
                 />
               ))}
 

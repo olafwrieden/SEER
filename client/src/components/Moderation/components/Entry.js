@@ -3,7 +3,7 @@ import { FiCheck, FiTrash2 } from "react-icons/fi";
 import { RecordType } from "../../../utils/RecordType";
 import RejectionNote from "./RejectionNote";
 
-const Entry = ({ id, title, type, date, doi, url }) => {
+const Entry = ({ id, title, type, date, doi, url, refreshPage }) => {
   const icon = type?.icon || RecordType.UNCLASSIFIED.icon;
   const [showRejectionModal, setShowRejectionModal] = useState(false);
   const toggleRejectionModal = () => setShowRejectionModal(!showRejectionModal);
@@ -88,7 +88,7 @@ const Entry = ({ id, title, type, date, doi, url }) => {
         </div>
       </div>
     </div>
-    <RejectionNote id={id} isOpen={showRejectionModal} toggle={toggleRejectionModal} />
+    <RejectionNote id={id} isOpen={showRejectionModal} toggle={toggleRejectionModal} refreshPage={refreshPage} />
     </>
   );
 };
