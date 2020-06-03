@@ -1,22 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { RecordType } from "../../../utils/RecordType";
 import { RiCheckLine, RiDeleteBin2Line } from "react-icons/ri";
 
 const Submission = () => {
+  // DISPLAY ICON
   const { type } = useParams();
   const icon = RecordType[type].icon || RecordType.UNCLASSIFIED.icon;
-  const [message, setMessage] = useState("");
+  // GET SUBMITTED INFO
+  const [doi, setDoi] = useState("");
+  const [evidence, setEvidence] = useState("");
   const [disableSubmit, setDisableSubmit] = useState(true);
-
-  const isSubmitDisabled = () => {
-    let condition = document.getElementById("doi").value.length === 0 || document.getElementById("evidence-link").value.length === 0;
-    setDisableSubmit(condition);
-  }
-
+  const [message, setMessage] = useState("");
+  // DISABLE/ENABLE SUBMIT BUTTON
+  useEffect(() => {
+    setDisableSubmit(doi.length < 5 || evidence.length < 5)
+  }, [doi, evidence])
+  // WILL USE THIS COMMENTED CODE LATER
   const submitEvidence = () => {
+    // return fetch("/api/v1/evidence", {
+    //   method: "POST",
+    //   headers: { "Content-type": "application/json" },
+    //   body: JSON.stringify({ doi, evidence }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((res) => {
+    //     if (!res?.error && !res?.message) {
     setMessage("Submitted!");
-  }
+    //   }
+    //   return res;
+    // })
+    // .catch((error) => error);
+  };
 
   return (
     <>
@@ -31,14 +46,16 @@ const Submission = () => {
               {/* <form> */}
               <div className="field">
                 <div className="control">
-                  <input id="doi" className="input" type="text" onKeyUp={isSubmitDisabled}
-                    placeholder="DOI" />
+                  <input id="doi" className="input" type="text" placeholder="DOI"
+                    onChange={(e) => setDoi(e.target.value)}
+                  />
                 </div>
               </div>
               <div className="field">
                 <div className="control">
-                  <input id="evidence-link" className="input" type="text" onKeyUp={isSubmitDisabled}
-                    placeholder="Link to evidence record" />
+                  <input id="evidence-link" className="input" type="text" placeholder="Link to evidence record"
+                    onChange={(e) => setEvidence(e.target.value)}
+                  />
                 </div>
               </div>
               <div className="field is-grouped">
