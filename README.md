@@ -13,7 +13,7 @@
 ### Architecture
 We have designed SEER in a monorepo, meaning API and Client-side code are contained within the same repository. Knowing that Heroku puts apps to sleep after 30 minutes of inactivity, this setup ensures the API is always accessible when called by the frontend (instead of timining out due to being 'snoozed' by Heroku). In fact, at build time Heroku ensures the API serves both the frontend as well as the API routes in one service. Though not scalable in larger production apps, it is appropriate for this project.
 
-![SEER Product Architecture](https://i.imgur.com/TbGim7s.png)
+![SEER Product Architecture](https://i.imgur.com/gRbN0Ew.png)
 
 ### Prerequisites
 1. This project is built on [Node JS](https://nodejs.org/en/), which must be installed on your device.
