@@ -21,7 +21,7 @@ const Submission = () => {
     return fetch("/api/v1/evidence", {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ doi, evidence }),
+      body: JSON.stringify({ doi, link: evidence }),
     })
       .then((res) => res.json())
       .then((res) => {

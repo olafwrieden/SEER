@@ -39,11 +39,16 @@ exports.getEvidenceById = async (req, res) => {
 
 exports.createNewEvidence = async (req, res) => {
   try {
+    // I LEFT THIS FOR CONVENIENCE. BECAUSE SOMETIMES I GET LOGGED OUT AND IT WON'T POST
     // const author = req.user.id || null;
     // if (!author) {
     //   return handleError(res, 'You must be logged in to submit new evidence.');
     // }
-    res.send(await db.createEntry(req, Evidence));
+    const submission = new Evidence(req.body);
+    submission.save((err, submission) => {
+      if (err) res.send(err);
+      res.json(submission);
+    });
   } catch (error) {
     handleError(res, error);
   }

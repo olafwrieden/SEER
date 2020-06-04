@@ -30,7 +30,13 @@ const EvidenceSchema = new Schema(
       type: String
     },
     doi: {
-      type: String
+      type: String,
+      required: [true, 'The DOI is required.']
+
+    },
+    link: {
+      type: String,
+      required: [true, 'The link to view evidence is required.']
     },
     ratings: {
       type: [RatingSchema]
