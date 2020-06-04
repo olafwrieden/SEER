@@ -18,19 +18,19 @@ const Submission = () => {
   }, [doi, evidence])
   // WILL USE THIS COMMENTED CODE LATER
   const submitEvidence = () => {
-    // return fetch("/api/v1/evidence", {
-    //   method: "POST",
-    //   headers: { "Content-type": "application/json" },
-    //   body: JSON.stringify({ doi, evidence }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     if (!res?.error && !res?.message) {
-    setMessage("Submitted!");
-    //   }
-    //   return res;
-    // })
-    // .catch((error) => error);
+    return fetch("/api/v1/evidence", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ doi, evidence }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (!res?.error && !res?.message) {
+          setMessage("Submitted!");
+        }
+        return res;
+      })
+      .catch((error) => error);
   };
 
   return (

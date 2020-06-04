@@ -37,6 +37,18 @@ exports.getEvidenceById = async (req, res) => {
   }
 };
 
+exports.createNewEvidence = async (req, res) => {
+  try {
+    // const author = req.user.id || null;
+    // if (!author) {
+    //   return handleError(res, 'You must be logged in to submit new evidence.');
+    // }
+    res.send(await db.createEntry(req, Evidence));
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
 exports.createEvidenceReview = async (req, res) => {
   try {
     const id = await isIDValid(req.params.id);

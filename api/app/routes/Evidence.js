@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   getEvidence,
   getEvidenceById,
+  createNewEvidence,
   createEvidenceReview,
   moderateSubmission
 } = require('../controllers/Evidence');
@@ -13,6 +14,9 @@ router.get('/', getEvidence);
 
 /* Get specific evidence */
 router.get('/:id', getEvidenceById);
+
+/* Create new evidence submission */
+router.post('/', createNewEvidence);
 
 /* Create evidence review */
 router.post('/:id/reviews', isAuthed(), createEvidenceReview);
