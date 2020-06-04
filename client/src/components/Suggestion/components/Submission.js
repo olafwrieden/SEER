@@ -9,19 +9,19 @@ const Submission = () => {
   const icon = RecordType[type].icon || RecordType.UNCLASSIFIED.icon;
   // GET SUBMITTED INFO
   const [doi, setDoi] = useState("");
-  const [evidence, setEvidence] = useState("");
+  const [link, setLink] = useState("");
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [message, setMessage] = useState("");
   // DISABLE/ENABLE SUBMIT BUTTON
   useEffect(() => {
-    setDisableSubmit(doi.length < 5 || evidence.length < 5)
-  }, [doi, evidence])
-  // WILL USE THIS COMMENTED CODE LATER
+    setDisableSubmit(doi.length < 5 || link.length < 5)
+  }, [doi, link])
+
   const submitEvidence = () => {
     return fetch("/api/v1/evidence", {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ doi, link: evidence }),
+      body: JSON.stringify({ doi, link }),
     })
       .then((res) => res.json())
       .then((res) => {
@@ -53,8 +53,8 @@ const Submission = () => {
               </div>
               <div className="field">
                 <div className="control">
-                  <input id="evidence-link" className="input" type="text" placeholder="Link to evidence record"
-                    onChange={(e) => setEvidence(e.target.value)}
+                  <input className="input" type="text" placeholder="Link to evidence record"
+                    onChange={(e) => setLink(e.target.value)}
                   />
                 </div>
               </div>
