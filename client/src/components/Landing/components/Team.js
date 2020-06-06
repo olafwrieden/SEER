@@ -12,7 +12,7 @@ const Team = () => (
               <figure className="image is-128x128">
                 <img
                   className="is-rounded"
-                  src="https://media-exp1.licdn.com/dms/image/C4E03AQEmtPHj9EzPog/profile-displayphoto-shrink_400_400/0?e=1595462400&v=beta&t=A4XZYxs4WZ6DA7CSVvQYxlOFywHTxDEVYwLmQ8trwb8"
+                  src="https://media-exp1.licdn.com/dms/image/C5603AQGL0Vgyk7LboQ/profile-displayphoto-shrink_400_400/0?e=1596672000&v=beta&t=2Ru8UNSA8aeY94XL4avrY4iRFK4HRbCF1mCz0c5vGdo"
                   alt=""
                 />
               </figure>
