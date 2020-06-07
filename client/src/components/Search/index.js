@@ -40,12 +40,10 @@ const Search = () => {
   }, []);
 
   /* Remove the selected Filter */
-  const deleteItem = (id) => {
-    /**
-     * FIXME: ID duplication due to `id: filters.length` causes IDs not to be
-     * unique. When deleting, it will delete multiple filters with the same ID.
-     **/
-    setFilters(filters.filter((filter) => filter.id !== id));
+  const deleteItem = (i) => {
+    setFilters(
+      ...[filters.slice(0, i).concat(filters.slice(i + 1, filters.length))]
+    );
   };
 
   return (
@@ -59,11 +57,11 @@ const Search = () => {
           <SearchBar />
 
           {/* Filters */}
-          {filters.map((filter, index) => (
+          {filters.map((_, index) => (
             <Filter
               key={index}
               id={index}
-              remove={deleteItem}
+              remove={() => deleteItem(index)}
               handleChange={handleFilterUpdate}
             />
           ))}

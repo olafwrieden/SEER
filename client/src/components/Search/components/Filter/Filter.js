@@ -104,7 +104,7 @@ const Filter = ({ id, remove, handleChange }) => {
           >
             <button
               className="column button is-danger is-fullwidth"
-              onClick={() => remove(id)}
+              onClick={() => remove()}
             >
               <FiTrash />
             </button>
