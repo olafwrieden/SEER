@@ -4,6 +4,7 @@ import { RecordType } from "../../utils/RecordType";
 import Filter from "./components/Filter/Filter";
 import Result from "./components/Result";
 import SearchBar from "./components/SearchBar";
+import { v4 } from "uuid";
 
 const Search = () => {
   const [filters, setFilters] = useState([]);
@@ -29,7 +30,7 @@ const Search = () => {
 
   /* Adds a new Filter object */
   const addFilter = () => {
-    setFilters((filters) => [...filters, { id: filters.length }]);
+    setFilters((filters) => [...filters, { id: v4() }]);
   };
 
   /* Updates Filters state with child component */
@@ -57,10 +58,10 @@ const Search = () => {
           <SearchBar />
 
           {/* Filters */}
-          {filters.map((_, index) => (
+          {filters.map((filter, index) => (
             <Filter
               key={index}
-              id={index}
+              id={filter.id}
               remove={() => deleteItem(index)}
               handleChange={handleFilterUpdate}
             />
