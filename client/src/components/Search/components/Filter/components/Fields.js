@@ -6,17 +6,6 @@ const TYPE = {
     "Ends With",
     "Is Equal To",
   ],
-  NUMERIC: [
-    "Contains",
-    "Does Not Contain",
-    "Begins With",
-    "Ends With",
-    "Is Equal To",
-    "Is Less Than",
-    "Is Less Than or Equal To",
-    "Is More Than",
-    "Is More Than or Equal To",
-  ],
 };
 
 export const Fields = [
