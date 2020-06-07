@@ -11,18 +11,23 @@ const Search = () => {
   const [data, setData] = useState([]);
   const fetchIdRef = useRef(0);
 
-  const fetchData = useCallback(async ({ pageSize, pageIndex }) => {
-    const fetchId = ++fetchIdRef.current;
+  const fetchData = useCallback(
+    async ({ pageSize, pageIndex }) => {
+      const fetchId = ++fetchIdRef.current;
 
-    // Fetch Data
-    const data = await fetch(
-      `/api/v1/evidence?limit=${pageSize}&page=${pageIndex}&fields=status.state&filter=AVAILABLE`
-    ).then((res) => res.json());
+      // Fetch Data
+      const data = await fetch(
+        `/api/v1/evidence?limit=${pageSize}&page=${pageIndex}&fields=status.state&filter=AVAILABLE&filters=${JSON.stringify(
+          filters
+        )}`
+      ).then((res) => res.json());
 
-    if (fetchId === fetchIdRef.current) {
-      setData(data.data);
-    }
-  }, []);
+      if (fetchId === fetchIdRef.current) {
+        setData(data.data);
+      }
+    },
+    [filters]
+  );
 
   useEffect(() => {
     fetchData(0, 10);

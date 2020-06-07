@@ -18,6 +18,7 @@ const Filter = ({ id, remove, handleChange }) => {
   useEffect(() => {
     setFilter((prevState) => ({
       ...prevState,
+      type: fieldSelector.value,
       value: fieldSelector.values[0],
     }));
   }, [fieldSelector]);
