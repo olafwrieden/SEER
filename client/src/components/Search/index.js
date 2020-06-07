@@ -1,55 +1,51 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { averageRatings, formatDate } from "../../utils/helpers";
 import { RecordType } from "../../utils/RecordType";
+import Filter from "./components/Filter/Filter";
 import Result from "./components/Result";
 import SearchBar from "./components/SearchBar";
-import Filter from "./components/Filter";
 
-const Search = ({ terms, dateFrom, dateTo }) => {
+const Search = () => {
   const [filters, setFilters] = useState([]);
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [pageCount, setPageCount] = useState(0);
-  const [totalItems, setTotalItems] = useState(0);
   const fetchIdRef = useRef(0);
 
   const fetchData = useCallback(async ({ pageSize, pageIndex }) => {
     const fetchId = ++fetchIdRef.current;
-    setLoading(true);
 
     // Fetch Data
     const data = await fetch(
-      `/api/v1/evidence?limit=${pageSize}&page=${pageIndex}`
+      `/api/v1/evidence?limit=${pageSize}&page=${pageIndex}&fields=status.state&filter=AVAILABLE`
     ).then((res) => res.json());
 
     if (fetchId === fetchIdRef.current) {
       setData(data.data);
-      setTotalItems(data.totalItems);
-      setPageCount(data.totalPages);
-      setLoading(false);
     }
   }, []);
 
-  const pageIndex = 0; // TODO: remove hardcoding
-  const pageSize = 10; // TODO: remove hardcoding
   useEffect(() => {
-    fetchData({ pageIndex, pageSize });
-  }, [fetchData, pageIndex, pageSize]);
+    fetchData(0, 10);
+  }, [fetchData]);
 
-  const addFilter = (defautmethod, defaultOperator, defaultValue) => {
-    defautmethod = "method";
-    defaultOperator = "operator";
-    defaultValue = "value";
-
-    setFilters((filters) => [
-      ...filters,
-      { method: defautmethod, operator: defaultOperator, value: defaultValue },
-    ]);
+  /* Adds a new Filter object */
+  const addFilter = () => {
+    setFilters((filters) => [...filters, { id: filters.length }]);
   };
 
-  const removeFilter = (e, index) => {
-    e.preventDefault();
-    setFilters([...filters.filter((_, filterIndex) => filterIndex !== index)]);
+  /* Updates Filters state with child component */
+  const handleFilterUpdate = useCallback((f) => {
+    setFilters((prevState) =>
+      prevState.map((filter) => (filter.id === f.id ? { ...f } : filter))
+    );
+  }, []);
+
+  /* Remove the selected Filter */
+  const deleteItem = (id) => {
+    /**
+     * FIXME: ID duplication due to `id: filters.length` causes IDs not to be
+     * unique. When deleting, it will delete multiple filters with the same ID.
+     **/
+    setFilters(filters.filter((filter) => filter.id !== id));
   };
 
   return (
@@ -63,8 +59,13 @@ const Search = ({ terms, dateFrom, dateTo }) => {
           <SearchBar />
 
           {/* Filters */}
-          {filters.map((_, index) => (
-            <Filter key={index} remove={(e) => removeFilter(e, index)} />
+          {filters.map((filter, index) => (
+            <Filter
+              key={index}
+              id={index}
+              remove={deleteItem}
+              handleChange={handleFilterUpdate}
+            />
           ))}
           {/* Add Filters */}
           <button
