@@ -1,38 +1,56 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { averageRatings, formatDate } from "../../utils/helpers";
 import { RecordType } from "../../utils/RecordType";
+import Filter from "./components/Filter/Filter";
 import Result from "./components/Result";
 import SearchBar from "./components/SearchBar";
+import { v4 } from "uuid";
 
-const Search = ({ terms, dateFrom, dateTo }) => {
+const Search = () => {
+  const [filters, setFilters] = useState([]);
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [pageCount, setPageCount] = useState(0);
-  const [totalItems, setTotalItems] = useState(0);
   const fetchIdRef = useRef(0);
 
-  const fetchData = useCallback(async ({ pageSize, pageIndex }) => {
-    const fetchId = ++fetchIdRef.current;
-    setLoading(true);
+  const fetchData = useCallback(
+    async ({ pageSize, pageIndex }) => {
+      const fetchId = ++fetchIdRef.current;
 
-    // Fetch Data
-    const data = await fetch(
-      `/api/v1/evidence?limit=${pageSize}&page=${pageIndex}`
-    ).then((res) => res.json());
+      // Fetch Data
+      const data = await fetch(
+        `/api/v1/evidence?limit=${pageSize}&page=${pageIndex}&fields=status.state&filter=AVAILABLE&filters=${JSON.stringify(
+          filters
+        )}`
+      ).then((res) => res.json());
 
-    if (fetchId === fetchIdRef.current) {
-      setData(data.data);
-      setTotalItems(data.totalItems);
-      setPageCount(data.totalPages);
-      setLoading(false);
-    }
+      if (fetchId === fetchIdRef.current) {
+        setData(data.data);
+      }
+    },
+    [filters]
+  );
+
+  useEffect(() => {
+    fetchData(0, 10);
+  }, [fetchData]);
+
+  /* Adds a new Filter object */
+  const addFilter = () => {
+    setFilters((filters) => [...filters, { id: v4() }]);
+  };
+
+  /* Updates Filters state with child component */
+  const handleFilterUpdate = useCallback((f) => {
+    setFilters((prevState) =>
+      prevState.map((filter) => (filter.id === f.id ? { ...f } : filter))
+    );
   }, []);
 
-  const pageIndex = 0; // TODO: remove hardcoding
-  const pageSize = 10; // TODO: remove hardcoding
-  useEffect(() => {
-    fetchData({ pageIndex, pageSize });
-  }, [fetchData, pageIndex, pageSize]);
+  /* Remove the selected Filter */
+  const deleteItem = (i) => {
+    setFilters(
+      ...[filters.slice(0, i).concat(filters.slice(i + 1, filters.length))]
+    );
+  };
 
   return (
     <>
@@ -43,39 +61,54 @@ const Search = ({ terms, dateFrom, dateTo }) => {
             Verify a claim by searching our curated repository.
           </p>
           <SearchBar />
+
+          {/* Filters */}
+          {filters.map((filter, index) => (
+            <Filter
+              key={index}
+              id={filter.id}
+              remove={() => deleteItem(index)}
+              handleChange={handleFilterUpdate}
+            />
+          ))}
+          {/* Add Filters */}
+          <button
+            className="button is-small is-primary is-outlined"
+            onClick={() => addFilter()}
+          >
+            Add Filter
+          </button>
         </div>
       </section>
 
       {/* Search Results */}
-      <section className="section">
-        <div className="container">
-          {data.map((result) => {
-            const date = formatDate(result?.day, result?.month, result?.year);
-            const stars = averageRatings(result.ratings);
+      <div className="container">
+        {data.map((result) => {
+          const date = formatDate(result?.day, result?.month, result?.year);
+          const stars = averageRatings(result.ratings);
 
-            return (
-              <Result
-                key={result.id}
-                id = {result.id}
-                title={result.title}
-                type={RecordType[result.__type]}
-                date={date}
-                authors={result.authors}
-                researchQuestion={result.research_question}
-                outcome={result.outcome}
-                rating={stars}
-                seMethod={result.se_method}
-              />
-            );
-          })}
+          return (
+            <Result
+              key={result.id}
+              id={result.id}
+              title={result.title}
+              type={RecordType[result.__type]}
+              date={date}
+              authors={result.authors}
+              researchQuestion={result.research_question}
+              outcome={result.outcome}
+              rating={stars}
+              seMethod={result.se_method}
+            />
+          );
+        })}
 
-          {!data.length && (
-            <p className="has-text-centered">
-              Your search results will appear here.
-            </p>
-          )}
-        </div>
-      </section>
+        {!data.length && (
+          <p className="has-text-centered">
+            Your search results will appear here.
+          </p>
+        )}
+      </div>
     </>
   );
 };

@@ -7,17 +7,10 @@ import Entry from "./components/Entry";
 
 const Moderation = () => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [pageCount, setPageCount] = useState(0);
-  const [totalItems, setTotalItems] = useState(0);
   const fetchIdRef = useRef(0);
 
-  const pageIndex = 0;
-  const pageSize = 10;
-
-  const fetchData = useCallback(async ({ pageSize, pageIndex }) => {
+  const fetchData = useCallback(async () => {
     const fetchId = ++fetchIdRef.current;
-    setLoading(true);
 
     // Fetch Data
     const data = await fetch(
@@ -26,18 +19,15 @@ const Moderation = () => {
 
     if (fetchId === fetchIdRef.current) {
       setData(data.data);
-      setTotalItems(data.totalItems);
-      setPageCount(data.totalPages);
-      setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchData({ pageIndex, pageSize });
-  }, [fetchData, pageIndex, pageSize]);
+    fetchData(0, 10);
+  }, [fetchData]);
 
   const refreshPage = () => {
-    fetchData({ pageIndex, pageSize });
+    fetchData(0, 10);
   };
 
   return (
