@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { RecordType } from "../../../utils/RecordType";
 import { RiCheckLine, RiDeleteBin2Line } from "react-icons/ri";
 
@@ -12,6 +12,17 @@ const Submission = () => {
   const [link, setLink] = useState("");
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [message, setMessage] = useState("");
+  const [failed, setFailed] = useState("");
+  // VALIDATE LINK
+  const validateLink = (userInput) => {
+    let regex = userInput.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+    if (regex == null) {
+      setFailed("Please enter a valid link");
+    } else {
+      setFailed("");
+      setLink(userInput); // if not valid, link var will not have length, so submit will not be enabled
+    }
+  }
   // DISABLE/ENABLE SUBMIT BUTTON
   useEffect(() => {
     setDisableSubmit(doi.length < 5 || link.length < 5)
@@ -54,7 +65,7 @@ const Submission = () => {
               <div className="field">
                 <div className="control">
                   <input className="input" type="text" placeholder="Link to evidence record"
-                    onChange={(e) => setLink(e.target.value)}
+                    onChange={(e) => validateLink(e.target.value)}
                   />
                 </div>
               </div>
@@ -68,18 +79,23 @@ const Submission = () => {
                   </button>
                 </div>
                 <div className="control">
-                  <a className="button" href="./">
+                  <Link className="button" to="./">
                     <span className="icon is-small">
                       <RiDeleteBin2Line />
                     </span>
                     <span>Cancel</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
               {/* </form> */}
               {message && (
                 <div className="notification is-success is-light">
                   {JSON.stringify(message)}
+                </div>
+              )}
+              {failed && (
+                <div className="notification is-danger is-light">
+                  {JSON.stringify(failed)}
                 </div>
               )}
             </div>
