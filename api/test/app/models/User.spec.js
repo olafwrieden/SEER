@@ -1,4 +1,3 @@
-// NOTE: sorry that eslint hates this file. not sure what to do
 // arrange: require user
 const chai = require('chai');
 const expect = chai.expect;
