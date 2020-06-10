@@ -3,7 +3,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 const User = require('../../../app/models/User');
-// act: create user with first, last, email, pw
+// act: create user
 const validUser = new User({
   first_name: 'KJ',
   last_name: 'Millar',
