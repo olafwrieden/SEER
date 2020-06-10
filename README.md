@@ -8,6 +8,8 @@
 
 **Solve it with SEER:** Simply search for "TDD" and "code quality", then browse a list of empirical research articles related to this with a summary of each related to the study, the measures and the results.
 
+![SEER Homepage](https://i.imgur.com/AelgmLJ.png)
+
 ## Getting up and running (locally)
 
 ### Architecture
