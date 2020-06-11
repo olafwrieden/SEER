@@ -2,6 +2,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 const User = require('../../../app/models/User');
+
 // act: create user
 const validUser = new User({
   first_name: 'KJ',
@@ -9,6 +10,7 @@ const validUser = new User({
   email: 'kj@gmail.com',
   password: '123'
 });
+
 // assert: test user
 describe('Create valid user', () => {
   it('should be a valid object', function () {
