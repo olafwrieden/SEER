@@ -42,15 +42,34 @@ const listInitOptions = async (req) => {
   });
 };
 
+/* Escape-proofs the string */
+const escapeRegex = (string) => {
+  return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+};
+
 /* Builds query string */
 exports.checkQueryString = (query) => {
   return new Promise((resolve, reject) => {
     try {
+      const data = {};
+      const q = decodeURIComponent(query.q);
+
+      if (typeof query.q !== 'undefined' && q.trim() !== '') {
+        data.$and = [{ title: { $regex: new RegExp(escapeRegex(q), 'i') } }];
+      }
+      // TODO: Filters: Match method with correct db field
+      /* if (typeof query.filters !== 'undefined' && query.filters !== []) {
+        const filters = JSON.parse(query.filters);
+        filters.map((filter) => {
+          const se_method = { $regex: new RegExp(filter.method, 'i') };
+          data.$and.push({ se_method });
+        });
+        console.log(filters);
+      } */
       if (
         typeof query.filter !== 'undefined' &&
         typeof query.fields !== 'undefined'
       ) {
-        const data = { $or: [] };
         const array = [];
         // Takes fields param and builds an array by splitting with ','
         const arrayFields = query.fields.split(',');
@@ -63,11 +82,12 @@ exports.checkQueryString = (query) => {
           });
         });
         // Puts array result in data
-        data.$or = array;
-        resolve(data);
-      } else {
-        resolve({});
+        if (array.length > 0) {
+          data.$or = array;
+        }
       }
+      // Resolve with constructed or/and query
+      resolve(data);
     } catch (error) {
       console.error(error.message);
       reject(buildErrorObject(422, 'ERROR_WITH_FILTER'));

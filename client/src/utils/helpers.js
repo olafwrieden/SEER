@@ -23,9 +23,9 @@ export const formatAuthor = (authors) => {
   // if (authors.last_name) output += `${authors.last_name} `;
   // return output.trim();
 
-  {authors.map((author, i) => (
+  authors.map((author, i) => (
     <span key={i} className="tag">
       {author.first_name} {author.middle_name} {author.last_name}
     </span>
-  ))}
+  ));
 };
