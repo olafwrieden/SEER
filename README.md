@@ -32,6 +32,17 @@ SEER Evidence can be in one of 5 states:
 4. **AVAILABLE** - Once the analyst enters all relevant information for the evidence and approves it, it becomes available to the public.
 5. **UNAVAILABLE** - If at any point an admin decides the evidence must be hidden from public search results (perhaps for maintainance or due to questionable validity / poor ratings), this status may be assigned.
 
+### Supported Evidence Types
+
+SEER currently supports 6 types of evidence, thanks to [Mongoose Schema Discriminators](https://mongoosejs.com/docs/discriminators.html) (i.e. schema inheritance):
+
+1. **Books**
+2. **Book Sections**
+3. **Journals**
+4. **Periodicals**
+5. **Websites**
+6. **Proceedings**
+
 ## Getting up and running (locally)
 
 ### Architecture
