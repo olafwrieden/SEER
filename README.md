@@ -22,6 +22,16 @@ SEER features 4 types of users:
 3. **Analysts** - Employees who analyse articles approved by a moderator, and extract relevant information to enter into SEER before the content goes live.
 4. **Admins** - All previous capabilities in addition to viewing the dashboard, and manage users and evidence.
 
+### Evidence States
+
+SEER Evidence can be in one of 5 states:
+
+1. **PENDING_APPROVAL** - All new submissions enter the moderation queue with this status. Moderators can only accept or reject submissions with this status.
+2. **REJECTED** - If a submission is rejected (due to either: _UNRELATED_, _POOR_QUALITY_, _DUPLICATE_, _OTHER_), it enters this state and cannot progress in the queue unless actioned on by an admin.
+3. **PENDING_ANALYSIS** - If a submission is approved by a moderator, it enters this status and thus becomes available in the analyst's queue.
+4. **AVAILABLE** - Once the analyst enters all relevant information for the evidence and approves it, it becomes available to the public.
+5. **UNAVAILABLE** - If at any point an admin decides the evidence must be hidden from public search results (perhaps for maintainance or due to questionable validity / poor ratings), this status may be assigned.
+
 ## Getting up and running (locally)
 
 ### Architecture
