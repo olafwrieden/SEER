@@ -1,7 +1,7 @@
 import React from "react";
 import "./SearchBar.css";
 
-const SearchBar = () => {
+const SearchBar = ({ setTextSearch }) => {
   return (
     <>
       {/* Search Terms */}
@@ -13,6 +13,7 @@ const SearchBar = () => {
             className="input search-input"
             placeholder="TDD + Waterfall + Productivity"
             type="text"
+            onChange={(e) => setTextSearch(encodeURIComponent(e.target.value))}
           />
         </div>
 

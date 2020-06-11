@@ -7,6 +7,7 @@ import SearchBar from "./components/SearchBar";
 import { v4 } from "uuid";
 
 const Search = () => {
+  const [textSearch, setTextSearch] = useState("");
   const [filters, setFilters] = useState([]);
   const [data, setData] = useState([]);
   const fetchIdRef = useRef(0);
@@ -19,14 +20,14 @@ const Search = () => {
       const data = await fetch(
         `/api/v1/evidence?limit=${pageSize}&page=${pageIndex}&fields=status.state&filter=AVAILABLE&filters=${JSON.stringify(
           filters
-        )}`
+        )}&q=${textSearch}`
       ).then((res) => res.json());
 
       if (fetchId === fetchIdRef.current) {
         setData(data.data);
       }
     },
-    [filters]
+    [filters, textSearch]
   );
 
   useEffect(() => {
@@ -60,7 +61,7 @@ const Search = () => {
           <p className="subtitle" style={{ marginBottom: "50px" }}>
             Verify a claim by searching our curated repository.
           </p>
-          <SearchBar />
+          <SearchBar setTextSearch={setTextSearch} />
 
           {/* Filters */}
           {filters.map((filter, index) => (
