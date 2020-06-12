@@ -48,7 +48,6 @@ const Dashboard = () => {
               {/* {data.evidence.map(({total}) => ( */}
               <Statistic
                 value={data.total} // data.evidence.total
-                change={3}
                 text="Total Entries"
                 bgcolor="has-background-link"
               />
@@ -71,7 +70,7 @@ const Dashboard = () => {
             <div className="column is-6-tablet is-3-desktop">
               <Statistic
                 value={userData.total} // data.users.total
-                change={1}
+                change={userData.newInLast24}
                 text="Total Users"
                 bgcolor="has-background-success"
               />
