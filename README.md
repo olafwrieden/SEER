@@ -1,4 +1,4 @@
-# Software Engineering Research Repository (SEER)
+# Software Engineering Evidence Repository (SEER)
 
 > When you need to verify a software engineering-related claim, we are your curated evidence repository.
 
