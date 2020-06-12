@@ -12,22 +12,26 @@ const Dashboard = () => {
   const [userData, setUserData] = useState([]);
 
   useEffect(() => {
-  fetch('/api/v1/admin/stats', {
-    headers: { "Content-type": "application/json" },
-  })
-  .then(response => response.json())
-  .then((response) => (response?.evidence ? setData(response.evidence) : setData(null)))
-  .then(data => console.log(data));
+    fetch("/api/v1/admin/stats", {
+      headers: { "Content-type": "application/json" },
+    })
+      .then((response) => response.json())
+      .then((response) =>
+        response?.evidence ? setData(response.evidence) : setData(null)
+      )
+      .then((data) => console.log(data));
   }, []);
 
   useEffect(() => {
-    fetch('/api/v1/admin/stats', {
+    fetch("/api/v1/admin/stats", {
       headers: { "Content-type": "application/json" },
     })
-    .then(response => response.json())
-    .then((response) => (response?.users? setUserData(response.users) : setUserData(null)))
-    .then(data => console.log(data));
-    }, []);
+      .then((response) => response.json())
+      .then((response) =>
+        response?.users ? setUserData(response.users) : setUserData(null)
+      )
+      .then((data) => console.log(data));
+  }, []);
 
   return (
     <>
@@ -41,14 +45,14 @@ const Dashboard = () => {
           {/* Platform Statistics */}
           <div className="columns is-multiline">
             <div className="column is-6-tablet is-3-desktop">
-            {/* {data.evidence.map(({total}) => ( */}
+              {/* {data.evidence.map(({total}) => ( */}
               <Statistic
                 value={data.total} // data.evidence.total
                 change={3}
                 text="Total Entries"
                 bgcolor="has-background-link"
               />
-             {/* ))} */}
+              {/* ))} */}
             </div>
             <div className="column is-6-tablet is-3-desktop">
               <Statistic
