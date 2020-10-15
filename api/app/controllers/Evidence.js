@@ -37,6 +37,24 @@ exports.getEvidenceById = async (req, res) => {
   }
 };
 
+exports.createNewEvidence = async (req, res) => {
+  try {
+    // TODO: I LEFT THIS OUT BECAUSE I'M HAVING ISSUES LOGGING IN
+    // ALSO I DON'T KNOW IF THIS SHOULD BE HERE OR IN THE DATABASE FILE
+    // const author = req.user.id || null;
+    // if (!author) {
+    //   return handleError(res, 'You must be logged in to submit new evidence.');
+    // }
+    const submission = new Evidence(req.body);
+    submission.save((err, submission) => {
+      if (err) res.send(err);
+      res.json(submission);
+    });
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
 exports.createEvidenceReview = async (req, res) => {
   try {
     const id = await isIDValid(req.params.id);

@@ -42,6 +42,11 @@ const RejectionNote = ({ id, isOpen, toggle, refreshPage }) => {
       .catch((error) => error);
   };
 
+  const mockRejectAPICall = () => {
+    console.log("Rejecting " + id + " because " + reason);
+    handleBackButton();
+  }
+
   return (
     <div className={`modal ${isOpen ? "is-active" : ""}`}>
       <div className="modal-background"></div>
@@ -68,7 +73,7 @@ const RejectionNote = ({ id, isOpen, toggle, refreshPage }) => {
                       key={r.name}
                       className={`button ${
                         reason === r.name ? "is-primary" : ""
-                      }`}
+                        }`}
                       onClick={() => setReason(r.name)}
                     >
                       {r.button}
